@@ -6,470 +6,488 @@
 <title>בית ספר לנהיגה ברוך תור</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700;800&display=swap');
-:root {
-  --navy:#1B3A5C; --blue:#2563EB; --sky:#DBEAFE;
-  --accent:#F59E0B; --green:#16A34A; --red:#DC2626;
-  --bg:#F1F5F9; --card:#fff; --text:#1E293B;
-  --muted:#64748B; --border:#E2E8F0; --stripe:#F8FAFC;
-}
+:root{--navy:#0F2647;--blue:#1D6FE0;--sky:#DBEAFE;--accent:#F59E0B;--green:#059669;--red:#DC2626;--purple:#7C3AED;--bg:#EEF2F7;--card:#fff;--text:#0F172A;--muted:#64748B;--border:#E2E8F0;--stripe:#F8FAFC}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);direction:rtl;min-height:100vh}
-
-/* ── NAV ── */
-nav{background:var(--navy);color:#fff;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100}
-.nav-brand{font-size:16px;font-weight:800;letter-spacing:-0.5px}
-.nav-brand span{color:var(--accent)}
-.nav-tabs{display:flex;gap:4px}
-.nav-tab{background:none;border:none;color:rgba(255,255,255,0.6);padding:8px 14px;border-radius:8px;cursor:pointer;font-family:'Heebo',sans-serif;font-size:13px;font-weight:600;transition:all .2s}
-.nav-tab:hover{background:rgba(255,255,255,0.1);color:#fff}
-.nav-tab.active{background:rgba(255,255,255,0.15);color:#fff}
-.sync-btn{background:var(--accent);color:var(--navy);border:none;padding:7px 14px;border-radius:8px;font-family:'Heebo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:opacity .2s}
-.sync-btn:hover{opacity:.85}
-
-/* ── LAYOUT ── */
-main{max-width:960px;margin:0 auto;padding:24px 16px}
-.page{display:none}
-.page.active{display:block}
-
-/* ── CARDS ── */
-.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
-.card-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.card-title::before{content:'';width:4px;height:18px;background:var(--accent);border-radius:2px;display:block}
-
-/* ── STAT GRID ── */
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
-.stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
-.stat .val{font-size:28px;font-weight:800;color:var(--navy)}
-.stat .lbl{font-size:11px;color:var(--muted);margin-top:4px}
-.stat.red .val{color:var(--red)}
-.stat.green .val{color:var(--green)}
-
-/* ── TABLE ── */
-.tbl-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:13px}
-thead tr{background:var(--navy);color:#fff}
-th{padding:10px 12px;font-weight:600;text-align:right;white-space:nowrap}
-tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
-tbody tr:hover{background:var(--stripe)}
-td{padding:10px 12px;vertical-align:middle}
-.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
-.badge.green{background:#DCFCE7;color:#166534}
-.badge.red{background:#FEE2E2;color:#991B1B}
-.badge.yellow{background:#FEF9C3;color:#854D0E}
-.badge.gray{background:#F1F5F9;color:#475569}
-.action-btn{background:var(--sky);color:var(--blue);border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-family:'Heebo',sans-serif;font-size:12px;font-weight:600}
-.action-btn:hover{background:var(--blue);color:#fff}
-
-/* ── FORM ── */
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-.form-group{display:flex;flex-direction:column;gap:6px}
-label{font-size:12px;font-weight:700;color:var(--navy)}
-input,select{padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Heebo',sans-serif;font-size:14px;color:var(--text);background:#fff;transition:border .2s;direction:rtl}
-input:focus,select:focus{outline:none;border-color:var(--blue)}
-.btn{padding:11px 24px;border:none;border-radius:8px;font-family:'Heebo',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
-.btn-primary{background:var(--navy);color:#fff}
-.btn-primary:hover{background:#1e4d8c}
-.btn-success{background:var(--green);color:#fff}
-.form-actions{margin-top:8px;display:flex;gap:10px;flex-wrap:wrap}
-
-/* ── MODAL ── */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:16px}
+nav{background:var(--navy);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.25)}
+.brand{display:flex;align-items:center;gap:8px}
+.brand-icon{width:32px;height:32px;background:var(--accent);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.brand-text{color:#fff;font-size:15px;font-weight:800}.brand-text span{color:#FCD34D}
+.nav-tabs{display:flex;gap:1px}
+.nav-tab{background:none;border:none;color:rgba(255,255,255,.5);padding:7px 9px;border-radius:7px;cursor:pointer;font-family:'Heebo',sans-serif;font-size:11px;font-weight:600;transition:all .2s;white-space:nowrap}
+.nav-tab:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-tab.active{color:#fff;background:rgba(255,255,255,.13);position:relative}
+.nav-tab.active::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:18px;height:3px;background:var(--accent);border-radius:2px}
+.sync-btn{background:var(--accent);color:var(--navy);border:none;padding:7px 10px;border-radius:8px;font-family:'Heebo',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap}
+main{max-width:640px;margin:0 auto;padding:18px 13px 60px}
+.page{display:none;animation:fi .2s ease}.page.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+.stat-card{background:var(--card);border-radius:12px;padding:15px;border:1px solid var(--border);position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:0;right:0;width:3px;height:100%}
+.stat-card.blue::after{background:var(--blue)}.stat-card.red::after{background:var(--red)}.stat-card.green::after{background:var(--green)}.stat-card.amber::after{background:var(--accent)}
+.stat-icon{font-size:19px;margin-bottom:7px}.stat-val{font-size:22px;font-weight:900;color:var(--navy);line-height:1}.stat-lbl{font-size:11px;color:var(--muted);margin-top:4px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:15px}
+.card-header{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--stripe)}
+.card-title{font-size:13px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;background:var(--accent);border-radius:50%;display:inline-block}
+.stu-row{display:flex;align-items:center;gap:11px;padding:14px 16px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border)}
+.stu-row:last-child{border-bottom:none}
+.stu-row:hover{background:#F0F7FF}
+.avatar{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;background:var(--navy);color:#fff}
+.stu-info{flex:1;min-width:0}.stu-name{font-size:14px;font-weight:700;color:var(--navy)}.stu-meta{font-size:11px;color:var(--muted);margin-top:2px}
+.stu-right{text-align:left;flex-shrink:0}.stu-bal{font-size:16px;font-weight:800}.stu-bal.red{color:var(--red)}.stu-bal.green{color:var(--green)}.stu-paid{font-size:11px;color:var(--muted);margin-top:2px}
+.arrow{color:#CBD5E1;font-size:18px;flex-shrink:0}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.bg{background:#D1FAE5;color:#065F46}.br{background:#FEE2E2;color:#991B1B}.by{background:#FEF3C7;color:#92400E}.bb{background:var(--sky);color:#1E40AF}.bpu{background:#EDE9FE;color:#5B21B6}.bgr{background:#F1F5F9;color:#374151}
+/* FORM */
+.form-wrap{padding:18px}
+.form-section{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin:18px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--border)}
+.form-section:first-child{margin-top:0}
+.fg{margin-bottom:12px}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.req{color:var(--red)}
+input,select{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:9px;font-family:'Heebo',sans-serif;font-size:14px;color:var(--text);background:#fff;transition:all .2s;direction:rtl}
+input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(29,111,224,.1)}
+input::placeholder{color:#CBD5E1}
+/* CHECKBOXES */
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.check-item{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;cursor:pointer;transition:all .2s;background:#fff}
+.check-item:hover{border-color:var(--blue);background:var(--sky)}
+.check-item.checked{border-color:var(--green);background:#F0FDF4}
+.check-item input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--green)}
+.check-item span{font-size:13px;font-weight:600;color:var(--text)}
+/* AGE WARNING */
+.age-warning{background:#FEF3C7;border:1px solid #FDE68A;border-radius:9px;padding:10px 14px;font-size:13px;color:#92400E;margin-bottom:12px;display:none}
+.age-warning.show{display:flex;align-items:center;gap:8px}
+/* SUBMIT */
+.btn{width:100%;padding:13px;border:none;border-radius:10px;font-family:'Heebo',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-top:6px}
+.btn-p{background:var(--navy);color:#fff}.btn-s{background:var(--green);color:#fff}.btn-arch{background:#374151;color:#fff}
+.alert{padding:11px 14px;border-radius:9px;font-size:13px;font-weight:600;margin-bottom:13px;display:none;align-items:center;gap:7px}
+.alert.show{display:flex}
+.as{background:#D1FAE5;color:#065F46;border:1px solid #6EE7B7}.ae{background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5}
+.sw{padding:11px 14px;border-bottom:1px solid var(--border)}
+.si{width:100%;padding:9px 13px;border:1.5px solid var(--border);border-radius:9px;font-family:'Heebo',sans-serif;font-size:14px;background:var(--stripe);direction:rtl}
+.si:focus{outline:none;border-color:var(--blue);background:#fff}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,20,40,.6);backdrop-filter:blur(4px);z-index:200;align-items:flex-end;justify-content:center}
 .modal-overlay.open{display:flex}
-.modal{background:#fff;border-radius:16px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;padding:24px}
-.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.modal-title{font-size:17px;font-weight:800;color:var(--navy)}
-.close-btn{background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);line-height:1}
-
-/* ── HISTORY ── */
-.history-section{margin-top:16px}
-.history-title{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:8px;padding-bottom:6px;border-bottom:2px solid var(--sky)}
-.history-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed var(--border);font-size:13px}
-.history-row:last-child{border-bottom:none}
-
-/* ── ALERT ── */
-.alert{padding:12px 16px;border-radius:8px;font-size:13px;margin-bottom:16px;display:none}
-.alert.success{background:#DCFCE7;color:#166534;border:1px solid #86EFAC}
-.alert.error{background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5}
-.alert.show{display:block}
-
-/* ── EMPTY ── */
-.empty{text-align:center;padding:40px;color:var(--muted);font-size:14px}
-
-/* ── LOADER ── */
-.loader{text-align:center;padding:30px;color:var(--muted);font-size:14px}
-
-@media(max-width:600px){
-  nav{padding:0 12px} .nav-brand{font-size:14px}
-  .nav-tab{padding:6px 10px;font-size:12px}
-  main{padding:16px 12px}
-}
+.modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:640px;max-height:92vh;overflow-y:auto;animation:su .28s cubic-bezier(.34,1.56,.64,1)}
+@keyframes su{from{transform:translateY(100%)}to{transform:none}}
+.handle{width:36px;height:4px;background:#E2E8F0;border-radius:2px;margin:12px auto 0}
+.modal-top{background:var(--navy);padding:18px 18px 20px;color:#fff}
+.modal-name{font-size:18px;font-weight:800}.modal-sub{font-size:12px;color:rgba(255,255,255,.5);margin-top:3px}
+.m-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.m-stat{background:var(--stripe);padding:13px;text-align:center}
+.m-stat .v{font-size:19px;font-weight:800;color:var(--navy)}.m-stat .l{font-size:10px;color:var(--muted);margin-top:2px}
+.modal-body{padding:16px}
+.ht{font-size:10px;font-weight:800;color:var(--muted);letter-spacing:1px;text-transform:uppercase;padding-bottom:7px;border-bottom:2px solid var(--border);margin:14px 0 2px}
+.ht:first-child{margin-top:0}
+.hr{display:flex;align-items:flex-start;justify-content:space-between;padding:10px 0;border-bottom:1px dashed var(--border);gap:8px}
+.hr:last-child{border-bottom:none}
+.hd{font-size:13px;font-weight:600}.hs{font-size:11px;color:var(--muted);margin-top:2px;font-style:italic}
+.hr-r{text-align:left;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.hp{font-size:13px;font-weight:700}.hp.dim{color:var(--muted)}
+/* STATUS CHANGE */
+.status-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.status-btn{flex:1;padding:9px;border:1.5px solid var(--border);border-radius:8px;font-family:'Heebo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;background:#fff;transition:all .2s;min-width:80px}
+.status-btn.active-s{border-color:var(--green);background:#F0FDF4;color:var(--green)}
+.status-btn.paused-s{border-color:var(--accent);background:#FFFBEB;color:#92400E}
+.status-btn.done-s{border-color:#374151;background:#F9FAFB;color:#374151}
+/* ARCHIVE */
+.arch-row{display:flex;align-items:center;gap:11px;padding:12px 16px;border-bottom:1px solid var(--border)}
+.arch-row:last-child{border-bottom:none}
+.arch-date{font-size:11px;color:var(--muted);margin-top:2px}
 </style>
 </head>
 <body>
-
 <nav>
-  <div class="nav-brand">🚗 ברוך <span>תור</span></div>
-  <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showPage('dashboard')">סקירה</button>
-    <button class="nav-tab" onclick="showPage('students')">תלמידים</button>
-    <button class="nav-tab" onclick="showPage('add')">+ תלמיד</button>
-    <button class="nav-tab" onclick="showPage('payment')">תשלום</button>
+  <div class="brand">
+    <div class="brand-icon">🚗</div>
+    <div class="brand-text">ברוך <span>תור</span></div>
   </div>
-  <button class="sync-btn" onclick="runSync()">🔄 סנכרן</button>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="show('dash',this)">סקירה</button>
+    <button class="nav-tab" onclick="show('students',this)">תלמידים</button>
+    <button class="nav-tab" onclick="show('add',this)">+ תלמיד</button>
+    <button class="nav-tab" onclick="show('pay',this)">תשלום</button>
+    <button class="nav-tab" onclick="show('archive',this)">ארכיון</button>
+  </div>
+  <button class="sync-btn" onclick="doSync(this)">🔄 סנכרן</button>
 </nav>
-
 <main>
 
-  <!-- ══ DASHBOARD ══ -->
-  <div id="page-dashboard" class="page active">
-    <div id="alert-dash" class="alert"></div>
-    <div class="stat-grid" id="stats">
-      <div class="stat"><div class="val" id="s-active">—</div><div class="lbl">תלמידים פעילים</div></div>
-      <div class="stat red"><div class="val" id="s-debt">—</div><div class="lbl">סה"כ חובות ₪</div></div>
-      <div class="stat"><div class="val" id="s-lessons">—</div><div class="lbl">שיעורים השבוע</div></div>
-      <div class="stat green"><div class="val" id="s-clear">—</div><div class="lbl">מסולקים</div></div>
-    </div>
-    <div class="card">
-      <div class="card-title">חובות פעילים</div>
-      <div class="tbl-wrap">
-        <table id="debt-table">
-          <thead><tr><th>#</th><th>שם</th><th>שיעורים</th><th>חוב ₪</th><th>שולם ₪</th><th>יתרה ₪</th><th>סטטוס</th><th></th></tr></thead>
-          <tbody id="debt-body"><tr><td colspan="8" class="loader">טוען נתונים...</td></tr></tbody>
-        </table>
-      </div>
-    </div>
+<!-- DASHBOARD -->
+<div id="page-dash" class="page active">
+  <div class="stats-grid">
+    <div class="stat-card blue"><div class="stat-icon">👥</div><div class="stat-val" id="s-total">—</div><div class="stat-lbl">תלמידים</div></div>
+    <div class="stat-card red"><div class="stat-icon">⚠️</div><div class="stat-val" id="s-debt">—</div><div class="stat-lbl">חובות</div></div>
+    <div class="stat-card amber"><div class="stat-icon">📅</div><div class="stat-val" id="s-lessons">—</div><div class="stat-lbl">שיעורים</div></div>
+    <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-val" id="s-clear">—</div><div class="stat-lbl">מסולקים</div></div>
   </div>
-
-  <!-- ══ STUDENTS ══ -->
-  <div id="page-students" class="page">
-    <div class="card">
-      <div class="card-title">כל התלמידים</div>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>#</th><th>שם</th><th>שיעורים</th><th>חוב</th><th>שולם</th><th>יתרה</th><th>סטטוס</th><th></th></tr></thead>
-          <tbody id="students-body"><tr><td colspan="8" class="loader">טוען...</td></tr></tbody>
-        </table>
-      </div>
-    </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="dot"></span>חובות פעילים</div></div>
+    <div id="debt-list"><div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">טוען...</div></div>
   </div>
+</div>
 
-  <!-- ══ ADD STUDENT ══ -->
-  <div id="page-add" class="page">
-    <div class="card">
-      <div class="card-title">הוספת תלמיד חדש</div>
+<!-- STUDENTS -->
+<div id="page-students" class="page">
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="dot"></span>כל התלמידים</div></div>
+    <div class="sw"><input class="si" type="text" placeholder="חיפוש לפי שם..." oninput="filterStudents(this.value)"></div>
+    <div id="all-list"><div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">טוען...</div></div>
+  </div>
+</div>
+
+<!-- ADD STUDENT -->
+<div id="page-add" class="page">
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="dot"></span>הוספת תלמיד חדש</div></div>
+    <div class="form-wrap">
       <div id="alert-add" class="alert"></div>
-      <div class="form-grid">
-        <div class="form-group">
-          <label>תעודת זהות *</label>
-          <input type="text" id="f-idnum" maxlength="9" placeholder="9 ספרות">
-        </div>
-        <div class="form-group">
-          <label>שם פרטי *</label>
-          <input type="text" id="f-first" placeholder="שם פרטי">
-        </div>
-        <div class="form-group">
-          <label>שם משפחה *</label>
-          <input type="text" id="f-last" placeholder="שם משפחה">
-        </div>
-        <div class="form-group">
-          <label>טלפון</label>
-          <input type="tel" id="f-phone" placeholder="05X-XXXXXXX">
-        </div>
-        <div class="form-group">
-          <label>אימייל</label>
-          <input type="email" id="f-email" placeholder="name@email.com">
-        </div>
-        <div class="form-group">
-          <label>מחיר לשיעור *</label>
-          <select id="f-price">
-            <option value="170">170 ₪</option>
-            <option value="180" selected>180 ₪</option>
-            <option value="190">190 ₪</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-actions">
-        <button class="btn btn-primary" onclick="submitStudent()">הוסף תלמיד</button>
-      </div>
-    </div>
-  </div>
 
-  <!-- ══ PAYMENT ══ -->
-  <div id="page-payment" class="page">
-    <div class="card">
-      <div class="card-title">רישום תשלום</div>
-      <div id="alert-pay" class="alert"></div>
-      <div class="form-grid">
-        <div class="form-group">
-          <label>מזהה תלמיד # *</label>
-          <input type="number" id="p-id" placeholder="מספר מזהה">
-        </div>
-        <div class="form-group">
-          <label>סכום ₪ *</label>
-          <input type="number" id="p-amount" placeholder="500">
-        </div>
-        <div class="form-group">
-          <label>אמצעי תשלום</label>
-          <select id="p-method">
-            <option>מזומן</option>
-            <option>העברה בנקאית</option>
-            <option>אשראי</option>
-            <option>ביט</option>
-            <option>פייבוקס</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>הערה</label>
-          <input type="text" id="p-note" placeholder="אסמכתא / פירוט">
+      <div class="form-section">פרטים אישיים</div>
+      <div class="fg-row">
+        <div class="fg"><label>שם פרטי <span class="req">*</span></label><input type="text" id="f-fn" placeholder="שם פרטי"></div>
+        <div class="fg"><label>שם משפחה <span class="req">*</span></label><input type="text" id="f-ln" placeholder="שם משפחה"></div>
+      </div>
+      <div class="fg-row">
+        <div class="fg"><label>ת"ז <span class="req">*</span></label><input type="text" id="f-id" maxlength="9" placeholder="9 ספרות"></div>
+        <div class="fg">
+          <label>תאריך לידה <span class="req">*</span></label>
+          <input type="date" id="f-dob" onchange="checkAge(this.value)">
+          <div class="age-warning" id="age-warn">⚠️ מתחת לגיל 16.5 — ייקלט כמושהה</div>
         </div>
       </div>
-      <div class="form-actions">
-        <button class="btn btn-success" onclick="submitPayment()">רשום תשלום</button>
+      <div class="fg-row">
+        <div class="fg"><label>טלפון</label><input type="tel" id="f-ph" placeholder="05X-XXXXXXX"></div>
+        <div class="fg"><label>מייל</label><input type="email" id="f-em" placeholder="name@email.com"></div>
       </div>
+
+      <div class="form-section">סטטוס לימודים</div>
+      <div class="check-grid">
+        <div class="check-item" id="chk-doctor" onclick="toggleCheck('doctor')">
+          <input type="checkbox" id="cb-doctor"><span>👨‍⚕️ בדיקת רופא</span>
+        </div>
+        <div class="check-item" id="chk-eye" onclick="toggleCheck('eye')">
+          <input type="checkbox" id="cb-eye"><span>👁️ בדיקת ראייה</span>
+        </div>
+        <div class="check-item" id="chk-theory" onclick="toggleCheck('theory')">
+          <input type="checkbox" id="cb-theory"><span>📖 תיאוריה</span>
+        </div>
+        <div class="check-item" id="chk-parking" onclick="toggleCheck('parking')">
+          <input type="checkbox" id="cb-parking"><span>🅿️ חניות</span>
+        </div>
+      </div>
+
+      <div class="form-section">פרטים כספיים</div>
+      <div class="fg-row">
+        <div class="fg"><label>מחיר לשיעור <span class="req">*</span></label>
+          <select id="f-price"><option value="170">170 ₪</option><option value="180" selected>180 ₪</option><option value="190">190 ₪</option></select>
+        </div>
+        <div class="fg"><label>דמי רישום</label>
+          <select id="f-fee"><option value="150">150 ₪</option><option value="50">50 ₪</option><option value="ללא">ללא</option></select>
+        </div>
+      </div>
+
+      <div class="form-section">סטטוס והערות</div>
+      <div class="fg">
+        <label>סטטוס</label>
+        <select id="f-status"><option value="פעיל">פעיל</option><option value="מושהה">מושהה</option></select>
+      </div>
+      <div class="fg"><label>הערות</label><input type="text" id="f-notes" placeholder="הערות חופשיות"></div>
+
+      <button class="btn btn-p" onclick="submitStudent()">הוסף תלמיד</button>
     </div>
   </div>
+</div>
+
+<!-- PAYMENT -->
+<div id="page-pay" class="page">
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="dot"></span>רישום תשלום</div></div>
+    <div class="form-wrap">
+      <div id="alert-pay" class="alert"></div>
+      <div class="fg"><label>מזהה תלמיד # <span class="req">*</span></label><input type="number" id="p-id" placeholder="מספר מזהה"></div>
+      <div class="fg"><label>סכום ₪ <span class="req">*</span></label><input type="number" id="p-am" placeholder="500"></div>
+      <div class="fg"><label>אמצעי תשלום</label>
+        <select id="p-mt"><option>מזומן</option><option>העברה בנקאית</option><option>אשראי</option><option>ביט</option><option>פייבוקס</option></select>
+      </div>
+      <div class="fg"><label>הערה</label><input type="text" id="p-nt" placeholder="אסמכתא / פירוט"></div>
+      <button class="btn btn-s" onclick="submitPayment()">💳 רשום תשלום</button>
+    </div>
+  </div>
+</div>
+
+<!-- ARCHIVE -->
+<div id="page-archive" class="page">
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="dot"></span>ארכיון תלמידים שסיימו</div></div>
+    <div id="archive-list"><div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">טוען...</div></div>
+  </div>
+</div>
 
 </main>
 
-<!-- ══ MODAL — היסטוריית תלמיד ══ -->
-<div class="modal-overlay" id="modal">
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title" id="modal-name">—</div>
-      <button class="close-btn" onclick="closeModal()">✕</button>
+    <div class="handle"></div>
+    <div class="modal-top">
+      <div class="modal-name" id="m-name">—</div>
+      <div class="modal-sub" id="m-sub">—</div>
     </div>
-    <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
-      <div class="stat"><div class="val" id="m-lessons">—</div><div class="lbl">שיעורים</div></div>
-      <div class="stat red"><div class="val" id="m-debt">—</div><div class="lbl">חוב ₪</div></div>
-      <div class="stat green"><div class="val" id="m-paid">—</div><div class="lbl">שולם ₪</div></div>
+    <div class="m-stats">
+      <div class="m-stat"><div class="v" id="m-lessons">—</div><div class="l">שיעורים</div></div>
+      <div class="m-stat"><div class="v" style="color:var(--red)" id="m-debt">—</div><div class="l">חוב</div></div>
+      <div class="m-stat"><div class="v" style="color:var(--green)" id="m-paid">—</div><div class="l">שולם</div></div>
     </div>
-    <div class="history-section">
-      <div class="history-title">📅 שיעורים אחרונים</div>
+    <div class="modal-body">
+      <div class="ht">עדכון סטטוס</div>
+      <div class="status-row">
+        <button class="status-btn active-s" onclick="changeStatus('פעיל')">✅ פעיל</button>
+        <button class="status-btn paused-s" onclick="changeStatus('מושהה')">⏸ מושהה</button>
+        <button class="status-btn done-s" onclick="changeStatus('סיים')">🏁 סיים → ארכיון</button>
+      </div>
+      <div class="ht" style="margin-top:16px">📅 שיעורים אחרונים</div>
       <div id="m-lessons-list"></div>
-    </div>
-    <div class="history-section">
-      <div class="history-title">💳 תשלומים</div>
-      <div id="m-payments-list"></div>
+      <div class="ht">💳 תשלומים</div>
+      <div id="m-pay-list"></div>
     </div>
   </div>
 </div>
 
 <script>
-// ── STATE ──
-let allStudents = [];
+let currentStudentId = null;
+let allStudentsCache = [];
 
-// ── PAGES ──
-function showPage(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  event.target.classList.add('active');
-  if (name === 'dashboard' || name === 'students') loadStudents();
+function show(p,btn){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  btn.classList.add('active');
+  if(p==='dash'||p==='students') loadStudents();
+  if(p==='archive') loadArchive();
 }
 
-// ── LOAD STUDENTS ──
-function loadStudents() {
+function loadStudents(){
   google.script.run
-    .withSuccessHandler(data => {
-      allStudents = data;
-      renderDashboard(data);
-      renderStudentsTable(data);
+    .withSuccessHandler(data=>{
+      allStudentsCache = data;
+      renderDebtList(data.filter(s=>s.balance>0));
+      renderAllList(data);
+      document.getElementById('s-total').textContent = data.length;
+      const totalDebt = data.reduce((a,s)=>a+(s.balance>0?s.balance:0),0);
+      document.getElementById('s-debt').textContent = '₪'+totalDebt.toLocaleString();
+      document.getElementById('s-lessons').textContent = data.reduce((a,s)=>a+s.lessons,0);
+      document.getElementById('s-clear').textContent = data.filter(s=>s.balance<=0).length;
     })
-    .withFailureHandler(err => showAlert('alert-dash', 'שגיאה בטעינת נתונים: ' + err.message, 'error'))
     .getStudentsData();
 }
 
-// ── RENDER DASHBOARD ──
-function renderDashboard(data) {
-  const active  = data.filter(s => s.balance > 0).length;
-  const totalD  = data.reduce((a, s) => a + (s.balance > 0 ? s.balance : 0), 0);
-  const cleared = data.filter(s => s.balance <= 0).length;
-
-  document.getElementById('s-active').textContent  = data.length;
-  document.getElementById('s-debt').textContent    = '₪' + totalD.toLocaleString();
-  document.getElementById('s-lessons').textContent = '—';
-  document.getElementById('s-clear').textContent   = cleared;
-
-  const tbody = document.getElementById('debt-body');
-  const debtors = data.filter(s => s.balance > 0).sort((a,b) => b.balance - a.balance);
-
-  if (!debtors.length) {
-    tbody.innerHTML = '<tr><td colspan="8" class="empty">🎉 אין חובות פעילים</td></tr>';
-    return;
-  }
-
-  tbody.innerHTML = debtors.map(s => `
-    <tr>
-      <td><strong>#${s.id}</strong></td>
-      <td>${s.name}</td>
-      <td>${s.lessons}</td>
-      <td>₪${Number(s.debt).toLocaleString()}</td>
-      <td>₪${Number(s.paid).toLocaleString()}</td>
-      <td><strong style="color:#DC2626">₪${Number(s.balance).toLocaleString()}</strong></td>
-      <td>${statusBadge(s.status)}</td>
-      <td><button class="action-btn" onclick="openModal(${s.id})">פרטים</button></td>
-    </tr>
-  `).join('');
+function renderDebtList(list){
+  const el = document.getElementById('debt-list');
+  if(!list.length){el.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">אין חובות פעילים 🎉</div>';return;}
+  el.innerHTML = list.sort((a,b)=>b.balance-a.balance).map(s=>stuRow(s)).join('');
 }
 
-// ── RENDER STUDENTS TABLE ──
-function renderStudentsTable(data) {
-  const tbody = document.getElementById('students-body');
-  if (!data.length) {
-    tbody.innerHTML = '<tr><td colspan="8" class="empty">אין תלמידים רשומים</td></tr>';
-    return;
-  }
-  tbody.innerHTML = data.map(s => `
-    <tr>
-      <td><strong>#${s.id}</strong></td>
-      <td>${s.name}</td>
-      <td>${s.lessons}</td>
-      <td>₪${Number(s.debt).toLocaleString()}</td>
-      <td>₪${Number(s.paid).toLocaleString()}</td>
-      <td>${s.balance > 0
-        ? `<strong style="color:#DC2626">₪${Number(s.balance).toLocaleString()}</strong>`
-        : `<span style="color:#16A34A">✓ מסולק</span>`
-      }</td>
-      <td>${statusBadge(s.status)}</td>
-      <td><button class="action-btn" onclick="openModal(${s.id})">פרטים</button></td>
-    </tr>
-  `).join('');
+function renderAllList(list){
+  const el = document.getElementById('all-list');
+  if(!list.length){el.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">אין תלמידים</div>';return;}
+  el.innerHTML = list.map(s=>stuRow(s)).join('');
 }
 
-function statusBadge(status) {
-  const map = {
-    'מסולק':'green', 'חוב פעיל':'yellow', 'חוב גבוה ⚠️':'red'
-  };
-  const cls = map[status] || 'gray';
-  return `<span class="badge ${cls}">${status}</span>`;
+function stuRow(s){
+  const initials = s.name.split(' ').map(w=>w[0]).join('').slice(0,2);
+  const balHtml = s.balance>0
+    ? '<div class="stu-bal red">−₪'+s.balance.toLocaleString()+'</div>'
+    : '<div class="stu-bal green">✓ מסולק</div>';
+  return `<div class="stu-row" onclick="openModal(${s.id})">
+    <div class="avatar">${initials}</div>
+    <div class="stu-info"><div class="stu-name">${s.name}</div><div class="stu-meta">#${s.id} · ${s.lessons} שיעורים</div></div>
+    <div class="stu-right">${balHtml}<div class="stu-paid">שולם ₪${Number(s.paid).toLocaleString()}</div></div>
+    <div class="arrow">›</div>
+  </div>`;
 }
 
-// ── MODAL ──
-function openModal(id) {
-  const student = allStudents.find(s => s.id == id);
-  if (!student) return;
-  document.getElementById('modal-name').textContent = student.name + ' #' + student.id;
-  document.getElementById('m-lessons').textContent = student.lessons;
-  document.getElementById('m-debt').textContent    = '₪' + Number(student.debt).toLocaleString();
-  document.getElementById('m-paid').textContent    = '₪' + Number(student.paid).toLocaleString();
-  document.getElementById('m-lessons-list').innerHTML  = '<div class="loader">טוען...</div>';
-  document.getElementById('m-payments-list').innerHTML = '<div class="loader">טוען...</div>';
+function filterStudents(val){
+  const filtered = allStudentsCache.filter(s=>s.name.includes(val));
+  renderAllList(filtered);
+}
+
+function openModal(id){
+  currentStudentId = id;
+  const s = allStudentsCache.find(x=>x.id==id);
+  if(!s) return;
+  document.getElementById('m-name').textContent = s.name;
+  document.getElementById('m-sub').textContent = 'מזהה #'+s.id;
+  document.getElementById('m-lessons').textContent = s.lessons;
+  document.getElementById('m-debt').textContent = '₪'+Number(s.debt).toLocaleString();
+  document.getElementById('m-paid').textContent = '₪'+Number(s.paid).toLocaleString();
+  document.getElementById('m-lessons-list').innerHTML = '<div style="color:var(--muted);font-size:13px;padding:8px 0">טוען...</div>';
+  document.getElementById('m-pay-list').innerHTML = '<div style="color:var(--muted);font-size:13px;padding:8px 0">טוען...</div>';
   document.getElementById('modal').classList.add('open');
+  google.script.run.withSuccessHandler(data=>{
+    const statusMap={'בוצע':'bg','בוטל':'br','לא הגיע':'by','מתוכנן':'bpu'};
+    const ll = document.getElementById('m-lessons-list');
+    ll.innerHTML = !data.lessons.length
+      ? '<div style="color:var(--muted);font-size:13px;padding:8px 0">אין שיעורים</div>'
+      : data.lessons.slice(-8).reverse().map(l=>`
+        <div class="hr">
+          <div><div class="hd">${l.date} · ${l.time} · ${l.type}</div><div class="hs">מקור קלנדר</div></div>
+          <div class="hr-r"><span class="badge ${statusMap[l.status]||'bgr'}">${l.status}</span><span class="hp ${l.price?'':'dim'}">${l.price?'₪'+l.price:'—'}</span></div>
+        </div>`).join('');
+    const pl = document.getElementById('m-pay-list');
+    pl.innerHTML = !data.payments.length
+      ? '<div style="color:var(--muted);font-size:13px;padding:8px 0">אין תשלומים</div>'
+      : data.payments.slice(-5).reverse().map(p=>`
+        <div class="hr">
+          <div><div class="hd">${p.date}</div><div class="hs">${p.method}</div></div>
+          <div class="hr-r"><span class="hp" style="color:var(--green)">+₪${Number(p.amount).toLocaleString()}</span></div>
+        </div>`).join('');
+  }).getStudentHistory(id);
+}
 
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+
+function changeStatus(status){
+  if(!currentStudentId) return;
+  if(status==='סיים' && !confirm('להעביר תלמיד זה לארכיון? פעולה זו אינה הפיכה.')) return;
   google.script.run
-    .withSuccessHandler(data => {
-      // שיעורים
-      const ll = document.getElementById('m-lessons-list');
-      if (!data.lessons.length) { ll.innerHTML = '<div class="empty">אין שיעורים</div>'; }
-      else {
-        ll.innerHTML = data.lessons.slice(-10).reverse().map(l => `
-          <div class="history-row">
-            <span>${l.date} ${l.time}</span>
-            <span>${l.type}</span>
-            <span>₪${l.price}</span>
-            <span>${statusBadge(l.status)}</span>
-          </div>
-        `).join('');
-      }
-      // תשלומים
-      const pl = document.getElementById('m-payments-list');
-      if (!data.payments.length) { pl.innerHTML = '<div class="empty">אין תשלומים</div>'; }
-      else {
-        pl.innerHTML = data.payments.slice(-10).reverse().map(p => `
-          <div class="history-row">
-            <span>${p.date}</span>
-            <span>${p.method}</span>
-            <span style="color:#16A34A;font-weight:700">+₪${Number(p.amount).toLocaleString()}</span>
-          </div>
-        `).join('');
+    .withSuccessHandler(res=>{
+      if(res.success){
+        closeModal();
+        loadStudents();
+        if(res.archived) showAlert('alert-add','✅ תלמיד הועבר לארכיון בהצלחה','as');
       }
     })
-    .getStudentHistory(id);
+    .updateStudentStatus(currentStudentId, status);
 }
 
-function closeModal() {
-  document.getElementById('modal').classList.remove('open');
+function loadArchive(){
+  google.script.run
+    .withSuccessHandler(data=>{
+      const el = document.getElementById('archive-list');
+      if(!data.length){el.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">הארכיון ריק</div>';return;}
+      el.innerHTML = data.map(s=>`
+        <div class="arch-row">
+          <div class="avatar" style="background:#374151">${s.fullName.split(' ').map(w=>w[0]).join('').slice(0,2)}</div>
+          <div class="stu-info"><div class="stu-name">${s.fullName}</div><div class="arch-date">סיים: ${s.finishedAt||'—'}</div></div>
+          <span class="badge bgr">סיים</span>
+        </div>`).join('');
+    })
+    .getArchiveStudents();
 }
 
-// ── ADD STUDENT ──
-function submitStudent() {
-  const idNum     = document.getElementById('f-idnum').value.trim();
-  const firstName = document.getElementById('f-first').value.trim();
-  const lastName  = document.getElementById('f-last').value.trim();
-  const phone     = document.getElementById('f-phone').value.trim();
-  const email     = document.getElementById('f-email').value.trim();
-  const price     = document.getElementById('f-price').value;
-
-  if (!idNum || !firstName || !lastName || !price) {
-    showAlert('alert-add', 'יש למלא שדות חובה: ת"ז, שם פרטי, שם משפחה, מחיר', 'error');
-    return;
+// AGE CHECK
+function checkAge(val){
+  if(!val) return;
+  const dob = new Date(val);
+  const now = new Date();
+  const ageMs = now - dob;
+  const ageYears = ageMs / (1000*60*60*24*365.25);
+  const warn = document.getElementById('age-warn');
+  if(ageYears < 16.5){
+    warn.classList.add('show');
+    document.getElementById('f-status').value = 'מושהה';
+  } else {
+    warn.classList.remove('show');
+    document.getElementById('f-status').value = 'פעיל';
   }
-
-  google.script.run
-    .withSuccessHandler(id => {
-      if (id) {
-        showAlert('alert-add', `✅ תלמיד נוסף בהצלחה! מזהה #${id}`, 'success');
-        ['f-idnum','f-first','f-last','f-phone','f-email'].forEach(f =>
-          document.getElementById(f).value = '');
-      } else {
-        showAlert('alert-add', '❌ ת"ז זו כבר קיימת במערכת', 'error');
-      }
-    })
-    .withFailureHandler(err => showAlert('alert-add', 'שגיאה: ' + err.message, 'error'))
-    .addStudentFromUI({ idNum, firstName, lastName, phone, email, price: Number(price) });
 }
 
-// ── ADD PAYMENT ──
-function submitPayment() {
-  const internalId = document.getElementById('p-id').value;
-  const amount     = document.getElementById('p-amount').value;
-  const method     = document.getElementById('p-method').value;
-  const note       = document.getElementById('p-note').value;
-
-  if (!internalId || !amount) {
-    showAlert('alert-pay', 'יש להזין מזהה תלמיד וסכום', 'error');
-    return;
+// CHECKBOX
+function toggleCheck(type){
+  const cb = document.getElementById('cb-'+type);
+  const item = document.getElementById('chk-'+type);
+  cb.checked = !cb.checked;
+  item.classList.toggle('checked', cb.checked);
+  // תיאוריה → מסמן רופא + ראייה אוטומטית
+  if(type==='theory' && cb.checked){
+    document.getElementById('cb-doctor').checked = true;
+    document.getElementById('chk-doctor').classList.add('checked');
+    document.getElementById('cb-eye').checked = true;
+    document.getElementById('chk-eye').classList.add('checked');
   }
+}
+
+function submitStudent(){
+  const fn = document.getElementById('f-fn').value.trim();
+  const ln = document.getElementById('f-ln').value.trim();
+  const id = document.getElementById('f-id').value.trim();
+  const dob = document.getElementById('f-dob').value;
+  if(!fn||!ln||!id||!dob){showAlert('alert-add','❌ יש למלא שם, ת"ז ותאריך לידה','ae');return;}
+
+  const dob2 = new Date(dob);
+  const ageYears = (new Date()-dob2)/(1000*60*60*24*365.25);
+
+  const data = {
+    firstName: fn, lastName: ln, idNum: id,
+    birthDate: document.getElementById('f-dob').value,
+    phone: document.getElementById('f-ph').value,
+    email: document.getElementById('f-em').value,
+    price: Number(document.getElementById('f-price').value),
+    registrationFee: document.getElementById('f-fee').value,
+    status: document.getElementById('f-status').value,
+    theory: document.getElementById('cb-theory').checked,
+    doctorCheck: document.getElementById('cb-doctor').checked,
+    eyeCheck: document.getElementById('cb-eye').checked,
+    parking: document.getElementById('cb-parking').checked,
+    notes: document.getElementById('f-notes').value,
+    underAge: ageYears < 16.5
+  };
 
   google.script.run
-    .withSuccessHandler(ok => {
-      if (ok) {
-        showAlert('alert-pay', `✅ תשלום של ₪${amount} נרשם בהצלחה`, 'success');
-        document.getElementById('p-id').value     = '';
-        document.getElementById('p-amount').value = '';
-        document.getElementById('p-note').value   = '';
+    .withSuccessHandler(res=>{
+      if(res&&res.success){
+        const msg = res.underAge
+          ? '✅ תלמיד נוסף כמושהה (מתחת לגיל 16.5) — מזהה #'+res.internalId
+          : '✅ תלמיד נוסף בהצלחה! מזהה #'+res.internalId;
+        showAlert('alert-add', msg, 'as');
+        ['f-fn','f-ln','f-id','f-ph','f-em','f-notes'].forEach(i=>document.getElementById(i).value='');
+        document.getElementById('f-dob').value='';
+        ['doctor','eye','theory','parking'].forEach(t=>{
+          document.getElementById('cb-'+t).checked=false;
+          document.getElementById('chk-'+t).classList.remove('checked');
+        });
+        document.getElementById('age-warn').classList.remove('show');
       } else {
-        showAlert('alert-pay', '❌ לא נמצא תלמיד עם מזהה זה', 'error');
+        showAlert('alert-add','❌ '+(res&&res.error||'שגיאה'),'ae');
       }
     })
-    .withFailureHandler(err => showAlert('alert-pay', 'שגיאה: ' + err.message, 'error'))
-    .addPaymentFromUI({ internalId: Number(internalId), amount: Number(amount), method, note });
+    .withFailureHandler(e=>showAlert('alert-add','❌ שגיאה: '+e.message,'ae'))
+    .addStudentFromUI(data);
 }
 
-// ── SYNC ──
-function runSync() {
-  const btn = document.querySelector('.sync-btn');
-  btn.textContent = '⏳ מסנכרן...';
-  btn.disabled = true;
+function submitPayment(){
+  const id=document.getElementById('p-id').value;
+  const am=document.getElementById('p-am').value;
+  if(!id||!am){showAlert('alert-pay','❌ יש להזין מזהה וסכום','ae');return;}
   google.script.run
-    .withSuccessHandler(msg => {
-      btn.textContent = '✅ בוצע';
-      setTimeout(() => { btn.textContent = '🔄 סנכרן'; btn.disabled = false; }, 3000);
-      loadStudents();
+    .withSuccessHandler(ok=>{
+      if(ok){showAlert('alert-pay','✅ תשלום ₪'+Number(am).toLocaleString()+' נרשם','as');
+        ['p-id','p-am','p-nt'].forEach(i=>document.getElementById(i).value='');
+      } else showAlert('alert-pay','❌ תלמיד לא נמצא','ae');
     })
-    .withFailureHandler(() => { btn.textContent = '🔄 סנכרן'; btn.disabled = false; })
-    .runSyncNow();
+    .addPaymentFromUI({internalId:Number(id),amount:Number(am),method:document.getElementById('p-mt').value,note:document.getElementById('p-nt').value});
 }
 
-// ── ALERT ──
-function showAlert(id, msg, type) {
-  const el = document.getElementById(id);
-  el.textContent = msg;
-  el.className = 'alert ' + type + ' show';
-  setTimeout(() => el.classList.remove('show'), 5000);
+function doSync(btn){
+  btn.textContent='⏳...';btn.disabled=true;
+  google.script.run.withSuccessHandler(()=>{
+    btn.textContent='✅';
+    setTimeout(()=>{btn.textContent='🔄 סנכרן';btn.disabled=false;loadStudents();},2000);
+  }).runSyncNow();
 }
 
-// ── INIT ──
+function showAlert(id,msg,cls){
+  const el=document.getElementById(id);
+  el.textContent=msg;el.className='alert '+cls+' show';
+  setTimeout(()=>el.classList.remove('show'),5000);
+}
+
 window.onload = loadStudents;
 </script>
 </body>
