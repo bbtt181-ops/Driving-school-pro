@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>בית ספר לנהיגה ברוך תור</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700;800&display=swap');
+:root {
+  --navy:#1B3A5C; --blue:#2563EB; --sky:#DBEAFE;
+  --accent:#F59E0B; --green:#16A34A; --red:#DC2626;
+  --bg:#F1F5F9; --card:#fff; --text:#1E293B;
+  --muted:#64748B; --border:#E2E8F0; --stripe:#F8FAFC;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);direction:rtl;min-height:100vh}
+
+/* ── NAV ── */
+nav{background:var(--navy);color:#fff;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100}
+.nav-brand{font-size:16px;font-weight:800;letter-spacing:-0.5px}
+.nav-brand span{color:var(--accent)}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{background:none;border:none;color:rgba(255,255,255,0.6);padding:8px 14px;border-radius:8px;cursor:pointer;font-family:'Heebo',sans-serif;font-size:13px;font-weight:600;transition:all .2s}
+.nav-tab:hover{background:rgba(255,255,255,0.1);color:#fff}
+.nav-tab.active{background:rgba(255,255,255,0.15);color:#fff}
+.sync-btn{background:var(--accent);color:var(--navy);border:none;padding:7px 14px;border-radius:8px;font-family:'Heebo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:opacity .2s}
+.sync-btn:hover{opacity:.85}
+
+/* ── LAYOUT ── */
+main{max-width:960px;margin:0 auto;padding:24px 16px}
+.page{display:none}
+.page.active{display:block}
+
+/* ── CARDS ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
+.card-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.card-title::before{content:'';width:4px;height:18px;background:var(--accent);border-radius:2px;display:block}
+
+/* ── STAT GRID ── */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.stat .val{font-size:28px;font-weight:800;color:var(--navy)}
+.stat .lbl{font-size:11px;color:var(--muted);margin-top:4px}
+.stat.red .val{color:var(--red)}
+.stat.green .val{color:var(--green)}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead tr{background:var(--navy);color:#fff}
+th{padding:10px 12px;font-weight:600;text-align:right;white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
+tbody tr:hover{background:var(--stripe)}
+td{padding:10px 12px;vertical-align:middle}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.badge.green{background:#DCFCE7;color:#166534}
+.badge.red{background:#FEE2E2;color:#991B1B}
+.badge.yellow{background:#FEF9C3;color:#854D0E}
+.badge.gray{background:#F1F5F9;color:#475569}
+.action-btn{background:var(--sky);color:var(--blue);border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-family:'Heebo',sans-serif;font-size:12px;font-weight:600}
+.action-btn:hover{background:var(--blue);color:#fff}
+
+/* ── FORM ── */
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+label{font-size:12px;font-weight:700;color:var(--navy)}
+input,select{padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Heebo',sans-serif;font-size:14px;color:var(--text);background:#fff;transition:border .2s;direction:rtl}
+input:focus,select:focus{outline:none;border-color:var(--blue)}
+.btn{padding:11px 24px;border:none;border-radius:8px;font-family:'Heebo',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-primary{background:var(--navy);color:#fff}
+.btn-primary:hover{background:#1e4d8c}
+.btn-success{background:var(--green);color:#fff}
+.form-actions{margin-top:8px;display:flex;gap:10px;flex-wrap:wrap}
+
+/* ── MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;padding:24px}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.modal-title{font-size:17px;font-weight:800;color:var(--navy)}
+.close-btn{background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);line-height:1}
+
+/* ── HISTORY ── */
+.history-section{margin-top:16px}
+.history-title{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:8px;padding-bottom:6px;border-bottom:2px solid var(--sky)}
+.history-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed var(--border);font-size:13px}
+.history-row:last-child{border-bottom:none}
+
+/* ── ALERT ── */
+.alert{padding:12px 16px;border-radius:8px;font-size:13px;margin-bottom:16px;display:none}
+.alert.success{background:#DCFCE7;color:#166534;border:1px solid #86EFAC}
+.alert.error{background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5}
+.alert.show{display:block}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:40px;color:var(--muted);font-size:14px}
+
+/* ── LOADER ── */
+.loader{text-align:center;padding:30px;color:var(--muted);font-size:14px}
+
+@media(max-width:600px){
+  nav{padding:0 12px} .nav-brand{font-size:14px}
+  .nav-tab{padding:6px 10px;font-size:12px}
+  main{padding:16px 12px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">🚗 ברוך <span>תור</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('dashboard')">סקירה</button>
+    <button class="nav-tab" onclick="showPage('students')">תלמידים</button>
+    <button class="nav-tab" onclick="showPage('add')">+ תלמיד</button>
+    <button class="nav-tab" onclick="showPage('payment')">תשלום</button>
+  </div>
+  <button class="sync-btn" onclick="runSync()">🔄 סנכרן</button>
+</nav>
+
+<main>
+
+  <!-- ══ DASHBOARD ══ -->
+  <div id="page-dashboard" class="page active">
+    <div id="alert-dash" class="alert"></div>
+    <div class="stat-grid" id="stats">
+      <div class="stat"><div class="val" id="s-active">—</div><div class="lbl">תלמידים פעילים</div></div>
+      <div class="stat red"><div class="val" id="s-debt">—</div><div class="lbl">סה"כ חובות ₪</div></div>
+      <div class="stat"><div class="val" id="s-lessons">—</div><div class="lbl">שיעורים השבוע</div></div>
+      <div class="stat green"><div class="val" id="s-clear">—</div><div class="lbl">מסולקים</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">חובות פעילים</div>
+      <div class="tbl-wrap">
+        <table id="debt-table">
+          <thead><tr><th>#</th><th>שם</th><th>שיעורים</th><th>חוב ₪</th><th>שולם ₪</th><th>יתרה ₪</th><th>סטטוס</th><th></th></tr></thead>
+          <tbody id="debt-body"><tr><td colspan="8" class="loader">טוען נתונים...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STUDENTS ══ -->
+  <div id="page-students" class="page">
+    <div class="card">
+      <div class="card-title">כל התלמידים</div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>#</th><th>שם</th><th>שיעורים</th><th>חוב</th><th>שולם</th><th>יתרה</th><th>סטטוס</th><th></th></tr></thead>
+          <tbody id="students-body"><tr><td colspan="8" class="loader">טוען...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ADD STUDENT ══ -->
+  <div id="page-add" class="page">
+    <div class="card">
+      <div class="card-title">הוספת תלמיד חדש</div>
+      <div id="alert-add" class="alert"></div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>תעודת זהות *</label>
+          <input type="text" id="f-idnum" maxlength="9" placeholder="9 ספרות">
+        </div>
+        <div class="form-group">
+          <label>שם פרטי *</label>
+          <input type="text" id="f-first" placeholder="שם פרטי">
+        </div>
+        <div class="form-group">
+          <label>שם משפחה *</label>
+          <input type="text" id="f-last" placeholder="שם משפחה">
+        </div>
+        <div class="form-group">
+          <label>טלפון</label>
+          <input type="tel" id="f-phone" placeholder="05X-XXXXXXX">
+        </div>
+        <div class="form-group">
+          <label>אימייל</label>
+          <input type="email" id="f-email" placeholder="name@email.com">
+        </div>
+        <div class="form-group">
+          <label>מחיר לשיעור *</label>
+          <select id="f-price">
+            <option value="170">170 ₪</option>
+            <option value="180" selected>180 ₪</option>
+            <option value="190">190 ₪</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="submitStudent()">הוסף תלמיד</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAYMENT ══ -->
+  <div id="page-payment" class="page">
+    <div class="card">
+      <div class="card-title">רישום תשלום</div>
+      <div id="alert-pay" class="alert"></div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>מזהה תלמיד # *</label>
+          <input type="number" id="p-id" placeholder="מספר מזהה">
+        </div>
+        <div class="form-group">
+          <label>סכום ₪ *</label>
+          <input type="number" id="p-amount" placeholder="500">
+        </div>
+        <div class="form-group">
+          <label>אמצעי תשלום</label>
+          <select id="p-method">
+            <option>מזומן</option>
+            <option>העברה בנקאית</option>
+            <option>אשראי</option>
+            <option>ביט</option>
+            <option>פייבוקס</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>הערה</label>
+          <input type="text" id="p-note" placeholder="אסמכתא / פירוט">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-success" onclick="submitPayment()">רשום תשלום</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ══ MODAL — היסטוריית תלמיד ══ -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-name">—</div>
+      <button class="close-btn" onclick="closeModal()">✕</button>
+    </div>
+    <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="stat"><div class="val" id="m-lessons">—</div><div class="lbl">שיעורים</div></div>
+      <div class="stat red"><div class="val" id="m-debt">—</div><div class="lbl">חוב ₪</div></div>
+      <div class="stat green"><div class="val" id="m-paid">—</div><div class="lbl">שולם ₪</div></div>
+    </div>
+    <div class="history-section">
+      <div class="history-title">📅 שיעורים אחרונים</div>
+      <div id="m-lessons-list"></div>
+    </div>
+    <div class="history-section">
+      <div class="history-title">💳 תשלומים</div>
+      <div id="m-payments-list"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── STATE ──
+let allStudents = [];
+
+// ── PAGES ──
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'dashboard' || name === 'students') loadStudents();
+}
+
+// ── LOAD STUDENTS ──
+function loadStudents() {
+  google.script.run
+    .withSuccessHandler(data => {
+      allStudents = data;
+      renderDashboard(data);
+      renderStudentsTable(data);
+    })
+    .withFailureHandler(err => showAlert('alert-dash', 'שגיאה בטעינת נתונים: ' + err.message, 'error'))
+    .getStudentsData();
+}
+
+// ── RENDER DASHBOARD ──
+function renderDashboard(data) {
+  const active  = data.filter(s => s.balance > 0).length;
+  const totalD  = data.reduce((a, s) => a + (s.balance > 0 ? s.balance : 0), 0);
+  const cleared = data.filter(s => s.balance <= 0).length;
+
+  document.getElementById('s-active').textContent  = data.length;
+  document.getElementById('s-debt').textContent    = '₪' + totalD.toLocaleString();
+  document.getElementById('s-lessons').textContent = '—';
+  document.getElementById('s-clear').textContent   = cleared;
+
+  const tbody = document.getElementById('debt-body');
+  const debtors = data.filter(s => s.balance > 0).sort((a,b) => b.balance - a.balance);
+
+  if (!debtors.length) {
+    tbody.innerHTML = '<tr><td colspan="8" class="empty">🎉 אין חובות פעילים</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = debtors.map(s => `
+    <tr>
+      <td><strong>#${s.id}</strong></td>
+      <td>${s.name}</td>
+      <td>${s.lessons}</td>
+      <td>₪${Number(s.debt).toLocaleString()}</td>
+      <td>₪${Number(s.paid).toLocaleString()}</td>
+      <td><strong style="color:#DC2626">₪${Number(s.balance).toLocaleString()}</strong></td>
+      <td>${statusBadge(s.status)}</td>
+      <td><button class="action-btn" onclick="openModal(${s.id})">פרטים</button></td>
+    </tr>
+  `).join('');
+}
+
+// ── RENDER STUDENTS TABLE ──
+function renderStudentsTable(data) {
+  const tbody = document.getElementById('students-body');
+  if (!data.length) {
+    tbody.innerHTML = '<tr><td colspan="8" class="empty">אין תלמידים רשומים</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map(s => `
+    <tr>
+      <td><strong>#${s.id}</strong></td>
+      <td>${s.name}</td>
+      <td>${s.lessons}</td>
+      <td>₪${Number(s.debt).toLocaleString()}</td>
+      <td>₪${Number(s.paid).toLocaleString()}</td>
+      <td>${s.balance > 0
+        ? `<strong style="color:#DC2626">₪${Number(s.balance).toLocaleString()}</strong>`
+        : `<span style="color:#16A34A">✓ מסולק</span>`
+      }</td>
+      <td>${statusBadge(s.status)}</td>
+      <td><button class="action-btn" onclick="openModal(${s.id})">פרטים</button></td>
+    </tr>
+  `).join('');
+}
+
+function statusBadge(status) {
+  const map = {
+    'מסולק':'green', 'חוב פעיל':'yellow', 'חוב גבוה ⚠️':'red'
+  };
+  const cls = map[status] || 'gray';
+  return `<span class="badge ${cls}">${status}</span>`;
+}
+
+// ── MODAL ──
+function openModal(id) {
+  const student = allStudents.find(s => s.id == id);
+  if (!student) return;
+  document.getElementById('modal-name').textContent = student.name + ' #' + student.id;
+  document.getElementById('m-lessons').textContent = student.lessons;
+  document.getElementById('m-debt').textContent    = '₪' + Number(student.debt).toLocaleString();
+  document.getElementById('m-paid').textContent    = '₪' + Number(student.paid).toLocaleString();
+  document.getElementById('m-lessons-list').innerHTML  = '<div class="loader">טוען...</div>';
+  document.getElementById('m-payments-list').innerHTML = '<div class="loader">טוען...</div>';
+  document.getElementById('modal').classList.add('open');
+
+  google.script.run
+    .withSuccessHandler(data => {
+      // שיעורים
+      const ll = document.getElementById('m-lessons-list');
+      if (!data.lessons.length) { ll.innerHTML = '<div class="empty">אין שיעורים</div>'; }
+      else {
+        ll.innerHTML = data.lessons.slice(-10).reverse().map(l => `
+          <div class="history-row">
+            <span>${l.date} ${l.time}</span>
+            <span>${l.type}</span>
+            <span>₪${l.price}</span>
+            <span>${statusBadge(l.status)}</span>
+          </div>
+        `).join('');
+      }
+      // תשלומים
+      const pl = document.getElementById('m-payments-list');
+      if (!data.payments.length) { pl.innerHTML = '<div class="empty">אין תשלומים</div>'; }
+      else {
+        pl.innerHTML = data.payments.slice(-10).reverse().map(p => `
+          <div class="history-row">
+            <span>${p.date}</span>
+            <span>${p.method}</span>
+            <span style="color:#16A34A;font-weight:700">+₪${Number(p.amount).toLocaleString()}</span>
+          </div>
+        `).join('');
+      }
+    })
+    .getStudentHistory(id);
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+// ── ADD STUDENT ──
+function submitStudent() {
+  const idNum     = document.getElementById('f-idnum').value.trim();
+  const firstName = document.getElementById('f-first').value.trim();
+  const lastName  = document.getElementById('f-last').value.trim();
+  const phone     = document.getElementById('f-phone').value.trim();
+  const email     = document.getElementById('f-email').value.trim();
+  const price     = document.getElementById('f-price').value;
+
+  if (!idNum || !firstName || !lastName || !price) {
+    showAlert('alert-add', 'יש למלא שדות חובה: ת"ז, שם פרטי, שם משפחה, מחיר', 'error');
+    return;
+  }
+
+  google.script.run
+    .withSuccessHandler(id => {
+      if (id) {
+        showAlert('alert-add', `✅ תלמיד נוסף בהצלחה! מזהה #${id}`, 'success');
+        ['f-idnum','f-first','f-last','f-phone','f-email'].forEach(f =>
+          document.getElementById(f).value = '');
+      } else {
+        showAlert('alert-add', '❌ ת"ז זו כבר קיימת במערכת', 'error');
+      }
+    })
+    .withFailureHandler(err => showAlert('alert-add', 'שגיאה: ' + err.message, 'error'))
+    .addStudentFromUI({ idNum, firstName, lastName, phone, email, price: Number(price) });
+}
+
+// ── ADD PAYMENT ──
+function submitPayment() {
+  const internalId = document.getElementById('p-id').value;
+  const amount     = document.getElementById('p-amount').value;
+  const method     = document.getElementById('p-method').value;
+  const note       = document.getElementById('p-note').value;
+
+  if (!internalId || !amount) {
+    showAlert('alert-pay', 'יש להזין מזהה תלמיד וסכום', 'error');
+    return;
+  }
+
+  google.script.run
+    .withSuccessHandler(ok => {
+      if (ok) {
+        showAlert('alert-pay', `✅ תשלום של ₪${amount} נרשם בהצלחה`, 'success');
+        document.getElementById('p-id').value     = '';
+        document.getElementById('p-amount').value = '';
+        document.getElementById('p-note').value   = '';
+      } else {
+        showAlert('alert-pay', '❌ לא נמצא תלמיד עם מזהה זה', 'error');
+      }
+    })
+    .withFailureHandler(err => showAlert('alert-pay', 'שגיאה: ' + err.message, 'error'))
+    .addPaymentFromUI({ internalId: Number(internalId), amount: Number(amount), method, note });
+}
+
+// ── SYNC ──
+function runSync() {
+  const btn = document.querySelector('.sync-btn');
+  btn.textContent = '⏳ מסנכרן...';
+  btn.disabled = true;
+  google.script.run
+    .withSuccessHandler(msg => {
+      btn.textContent = '✅ בוצע';
+      setTimeout(() => { btn.textContent = '🔄 סנכרן'; btn.disabled = false; }, 3000);
+      loadStudents();
+    })
+    .withFailureHandler(() => { btn.textContent = '🔄 סנכרן'; btn.disabled = false; })
+    .runSyncNow();
+}
+
+// ── ALERT ──
+function showAlert(id, msg, type) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'alert ' + type + ' show';
+  setTimeout(() => el.classList.remove('show'), 5000);
+}
+
+// ── INIT ──
+window.onload = loadStudents;
+</script>
+</body>
+</html>
