@@ -329,7 +329,12 @@ function openModal(id){
   document.getElementById('m-lessons-list').innerHTML = '<div style="color:var(--muted);font-size:13px;padding:8px 0">טוען...</div>';
   document.getElementById('m-pay-list').innerHTML = '<div style="color:var(--muted);font-size:13px;padding:8px 0">טוען...</div>';
   document.getElementById('modal').classList.add('open');
-  google.script.run.withSuccessHandler(data=>{
+  google.script.run
+    .withFailureHandler(err=>{
+      document.getElementById('m-lessons-list').innerHTML='<div style="color:red;padding:8px 0;font-size:13px">שגיאה: '+err.message+'</div>';
+      document.getElementById('m-pay-list').innerHTML='';
+    })
+    .withSuccessHandler(data=>{
     const statusMap={'בוצע':'bg','בוטל':'br','לא הגיע':'by','מתוכנן':'bpu'};
     const ll = document.getElementById('m-lessons-list');
     ll.innerHTML = !data.lessons.length
