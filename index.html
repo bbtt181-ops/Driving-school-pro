@@ -7,6 +7,14 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700;800&display=swap');
 :root{--navy:#0F2647;--blue:#1D6FE0;--sky:#DBEAFE;--accent:#F59E0B;--green:#059669;--red:#DC2626;--bg:#EEF2F7;--card:#fff;--text:#0F172A;--muted:#64748B;--border:#E2E8F0;--stripe:#F8FAFC}
+[data-theme=dark]{--bg:#1E2A3A;--card:#263548;--text:#F1F5F9;--muted:#94A3B8;--border:#334155;--stripe:#2D3E52;--navy:#0F2647}
+[data-theme=dark] .stat-lbl{color:#F87171;font-weight:700}
+[data-theme=dark] .stat-val{color:#F87171;font-weight:900}
+[data-theme=dark] .card-title{color:#F87171}
+[data-theme=dark] .ht{color:#F87171}
+[data-theme=dark] .m-stat .v{color:#F87171 !important}
+[data-theme=dark] .m-stat .l{color:#F87171}
+body{transition:background .3s,color .3s}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);direction:rtl;min-height:100vh}
 nav{background:var(--navy);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.25)}
@@ -113,7 +121,10 @@ input::placeholder{color:#CBD5E1}
     <button class="nav-tab" onclick="show('pay',this)">תשלום</button>
     <button class="nav-tab" onclick="show('archive',this)">ארכיון</button>
   </div>
-  <button class="sync-btn" onclick="doSync(this)">🔄 סנכרן</button>
+  <div style="display:flex;gap:6px;align-items:center">
+    <button class="sync-btn" onclick="doSync(this)">🔄 סנכרן</button>
+    <button class="sync-btn" id="dark-btn" onclick="toggleDark()" style="padding:7px 8px">🌙</button>
+  </div>
 </nav>
 <main>
 
@@ -122,10 +133,11 @@ input::placeholder{color:#CBD5E1}
     <div class="debt-banner-title">⚠️ חייבים מעל ₪1,000</div>
     <div id="debt-banner-list"></div>
   </div>
-  <div class="stats-grid">
+  <div class="stats-grid" style="grid-template-columns:repeat(5,1fr)">
     <div class="stat-card blue"><div class="stat-icon">👥</div><div class="stat-val" id="s-total">—</div><div class="stat-lbl">תלמידים</div></div>
-    <div class="stat-card red"><div class="stat-icon">⚠️</div><div class="stat-val" id="s-debt">—</div><div class="stat-lbl">חובות</div></div>
     <div class="stat-card amber"><div class="stat-icon">📅</div><div class="stat-val" id="s-lessons">—</div><div class="stat-lbl">שיעורים</div></div>
+    <div class="stat-card" style="--c:var(--accent)"><div class="stat-icon">🚦</div><div class="stat-val" id="s-tests">—</div><div class="stat-lbl">טסטים</div></div>
+    <div class="stat-card red"><div class="stat-icon">⚠️</div><div class="stat-val" id="s-debt">—</div><div class="stat-lbl">חובות</div></div>
     <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-val" id="s-clear">—</div><div class="stat-lbl">מסולקים</div></div>
   </div>
   <div class="card">
@@ -211,8 +223,9 @@ input::placeholder{color:#CBD5E1}
   <div class="modal">
     <div class="handle"></div>
     <div class="modal-top"><div class="modal-name" id="m-name">—</div><div class="modal-sub" id="m-sub">—</div></div>
-    <div class="m-stats">
+    <div class="m-stats" style="grid-template-columns:repeat(4,1fr)">
       <div class="m-stat"><div class="v" id="m-lessons">—</div><div class="l">שיעורים</div></div>
+      <div class="m-stat"><div class="v" style="color:var(--accent)" id="m-tests">—</div><div class="l">🚦 טסטים</div></div>
       <div class="m-stat"><div class="v" style="color:var(--red)" id="m-debt">—</div><div class="l">חוב</div></div>
       <div class="m-stat"><div class="v" style="color:var(--green)" id="m-paid">—</div><div class="l">שולם</div></div>
     </div>
@@ -286,6 +299,7 @@ function loadStudents(){
     document.getElementById('s-debt').textContent='₪'+data.reduce((a,s)=>a+(s.balance>0?s.balance:0),0).toLocaleString();
     document.getElementById('s-lessons').textContent=data.reduce((a,s)=>a+s.lessons,0);
     document.getElementById('s-clear').textContent=data.filter(s=>s.balance<=0).length;
+    document.getElementById('s-tests').textContent=data.reduce((a,s)=>a+(s.tests||0),0);
   }).getStudentsData();
 }
 
@@ -360,6 +374,7 @@ function openModal(id){
   document.getElementById('m-name').textContent=s.name;
   document.getElementById('m-sub').textContent='מזהה #'+s.id;
   document.getElementById('m-lessons').textContent=s.lessons;
+  document.getElementById('m-tests').textContent=s.tests||0;
   document.getElementById('m-debt').textContent='₪'+Number(s.debt).toLocaleString();
   document.getElementById('m-paid').textContent='₪'+Number(s.paid).toLocaleString();
   document.getElementById('m-lessons-list').innerHTML='<div style="color:var(--muted);font-size:13px;padding:8px 0">טוען...</div>';
@@ -501,6 +516,18 @@ function showDebtBanner(alerts){
   banner.classList.add('show');
   list.innerHTML=alerts.map(a=>`<div class="debt-item"><span class="debt-item-name">${a.name}</span><span class="debt-item-amount">₪${a.balance.toLocaleString()}</span></div>`).join('');
 }
+
+function toggleDark(){
+  const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('dark-btn').textContent=isDark?'🌙':'☀️';
+  localStorage.setItem('btt-theme',isDark?'light':'dark');
+}
+(function(){
+  const t=localStorage.getItem('btt-theme')||'light';
+  document.documentElement.setAttribute('data-theme',t);
+  if(t==='dark') setTimeout(()=>{const b=document.getElementById('dark-btn');if(b)b.textContent='☀️';},0);
+})();
 
 window.onload=function(){
   loadStudents();
