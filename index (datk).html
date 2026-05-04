@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>בית ספר לנהיגה ברוך תור</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700;800&display=swap');
+:root{--navy:#0F2647;--blue:#1D6FE0;--sky:#DBEAFE;--accent:#F59E0B;--green:#059669;--red:#DC2626;--bg:#EEF2F7;--card:#fff;--text:#0F172A;--muted:#64748B;--border:#E2E8F0;--stripe:#F8FAFC}
+[data-theme=dark]{--bg:#1E2A3A;--card:#263548;--text:#F1F5F9;--muted:#94A3B8;--border:#334155;--stripe:#2D3E52;--navy:#1a3a5c}
+[data-theme=dark] .stat-lbl{color:#F87171;font-weight:700}
+[data-theme=dark] .stat-val{color:#F87171;font-weight:900}
+[data-theme=dark] .card-title{color:#F87171}
+[data-theme=dark] .ht{color:#F87171}
+[data-theme=dark] .m-stat .v{color:#F87171 !important}
+[data-theme=dark] .m-stat .l{color:#F87171}
+[data-theme=dark] .modal{background:var(--card)}
+[data-theme=dark] .status-btn{background:var(--card);color:var(--text)}
+[data-theme=dark] input,[data-theme=dark] select{background:var(--card);color:var(--text);border-color:var(--border)}
+[data-theme=dark] .check-item{background:var(--card)}
+[data-theme=dark] .stu-row:hover{background:#2D3E52}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);direction:rtl;min-height:100vh;transition:background .3s,color .3s}
+nav{background:var(--navy);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.25)}
+.brand{display:flex;align-items:center;gap:8px}
+.brand-icon{width:32px;height:32px;background:var(--accent);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.brand-text{color:#fff;font-size:15px;font-weight:800}.brand-text span{color:#FCD34D}
+.nav-tabs{display:flex;gap:1px}
+.nav-tab{background:none;border:none;color:rgba(255,255,255,.5);padding:7px 9px;border-radius:7px;cursor:pointer;font-family:'Heebo',sans-serif;font-size:11px;font-weight:600;transition:all .2s;white-space:nowrap}
+.nav-tab:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-tab.active{color:#fff;background:rgba(255,255,255,.13);position:relative}
+.nav-tab.active::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:18px;height:3px;background:var(--accent);border-radius:2px}
+.sync-btn{background:var(--accent);color:var(--navy);border:none;padding:7px 10px;border-radius:8px;font-family:'Heebo',sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap}
+main{max-width:640px;margin:0 auto;padding:18px 13px 60px}
+.page{display:none;animation:fi .2s ease}.page.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px}
+.stat-card{background:var(--card);border-radius:12px;padding:12px 8px;border:1px solid var(--border);position:relative;overflow:hidden;text-align:center}
+.stat-card::after{content:'';position:absolute;top:0;right:0;width:3px;height:100%}
+.stat-card.blue::after{background:var(--blue)}.stat-card.red::after{background:var(--red)}.stat-card.green::after{background:var(--green)}.stat-card.amber::after{background:var(--accent)}.stat-card.yellow::after{background:#D97706}
+.stat-icon{font-size:18px;margin-bottom:4px}.stat-val{font-size:20px;font-weight:900;color:var(--navy);line-height:1}.stat-lbl{font-size:10px;color:var(--muted);margin-top:3px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:15px}
+.card-header{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--stripe)}
+.card-title{font-size:13px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;background:var(--accent);border-radius:50%;display:inline-block}
+.stu-row{display:flex;align-items:center;gap:11px;padding:14px 16px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border)}
+.stu-row:last-child{border-bottom:none}
+.stu-row:hover{background:#F0F7FF}
+.avatar{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;background:var(--navy);color:#fff}
+.stu-info{flex:1;min-width:0}.stu-name{font-size:14px;font-weight:700;color:var(--navy)}.stu-meta{font-size:11px;color:var(--muted);margin-top:2px}
+.stu-right{text-align:left;flex-shrink:0}.stu-bal{font-size:16px;font-weight:800}.stu-bal.red{color:var(--red)}.stu-bal.green{color:var(--green)}.stu-paid{font-size:11px;color:var(--muted);margin-top:2px}
+.arrow{color:#CBD5E1;font-size:18px;flex-shrink:0}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.bg{background:#D1FAE5;color:#065F46}.br{background:#FEE2E2;color:#991B1B}.by{background:#FEF3C7;color:#92400E}.bb{background:var(--sky);color:#1E40AF}.bpu{background:#EDE9FE;color:#5B21B6}.bgr{background:#F1F5F9;color:#374151}
+.form-wrap{padding:18px}
+.form-section{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin:18px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--border)}
+.form-section:first-child{margin-top:0}
+.fg{margin-bottom:12px}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.req{color:var(--red)}
+input,select{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:9px;font-family:'Heebo',sans-serif;font-size:14px;color:var(--text);background:#fff;transition:all .2s;direction:rtl}
+input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(29,111,224,.1)}
+input::placeholder{color:#CBD5E1}
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.check-item{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;cursor:pointer;transition:all .2s;background:#fff}
+.check-item:hover{border-color:var(--blue);background:var(--sky)}
+.check-item.checked{border-color:var(--green);background:#F0FDF4}
+.check-item input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--green)}
+.check-item span{font-size:13px;font-weight:600;color:var(--text)}
+.age-warning{background:#FEF3C7;border:1px solid #FDE68A;border-radius:9px;padding:10px 14px;font-size:13px;color:#92400E;margin-bottom:12px;display:none}
+.age-warning.show{display:flex;align-items:center;gap:8px}
+.btn{width:100%;padding:13px;border:none;border-radius:10px;font-family:'Heebo',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-top:6px}
+.btn-p{background:var(--navy);color:#fff}.btn-s{background:var(--green);color:#fff}
+.alert{padding:11px 14px;border-radius:9px;font-size:13px;font-weight:600;margin-bottom:13px;display:none;align-items:center;gap:7px}
+.alert.show{display:flex}
+.as{background:#D1FAE5;color:#065F46;border:1px solid #6EE7B7}.ae{background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5}
+.sw{padding:11px 14px;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center}
+.si{flex:1;padding:9px 13px;border:1.5px solid var(--border);border-radius:9px;font-family:'Heebo',sans-serif;font-size:14px;background:var(--stripe);direction:rtl;width:auto}
+.si:focus{outline:none;border-color:var(--blue);background:#fff}
+.sm-btn{padding:8px 12px;border:1.5px solid var(--border);border-radius:9px;background:#fff;color:var(--muted);font-family:'Heebo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s}
+.sm-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,20,40,.6);backdrop-filter:blur(4px);z-index:200;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:640px;max-height:92vh;overflow-y:auto;animation:su .28s cubic-bezier(.34,1.56,.64,1)}
+@keyframes su{from{transform:translateY(100%)}to{transform:none}}
+.handle{width:36px;height:4px;background:#E2E8F0;border-radius:2px;margin:12px auto 0}
+.modal-top{background:var(--navy);padding:18px 18px 20px;color:#fff}
+.modal-name{font-size:18px;font-weight:800}.modal-sub{font-size:12px;color:rgba(255,255,255,.5);margin-top:3px}
+.m-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+.m-stat{background:var(--stripe);padding:13px;text-align:center}
+.m-stat .v{font-size:19px;font-weight:800;color:var(--navy)}.m-stat .l{font-size:10px;color:var(--muted);margin-top:2px}
+.modal-body{padding:16px}
+.ht{font-size:10px;font-weight:800;color:var(--muted);letter-spacing:1px;text-transform:uppercase;padding-bottom:7px;border-bottom:2px solid var(--border);margin:14px 0 2px}
+.ht:first-child{margin-top:0}
+.hr{display:flex;align-items:flex-start;justify-content:space-between;padding:10px 0;border-bottom:1px dashed var(--border);gap:8px}
+.hr:last-child{border-bottom:none}
+.hd{font-size:13px;font-weight:600}.hs{font-size:11px;color:var(--muted);margin-top:2px;font-style:italic}
+.hr-r{text-align:left;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.hp{font-size:13px;font-weight:700}.hp.dim{color:var(--muted)}
+.status-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.status-btn{flex:1;padding:9px;border:1.5px solid var(--border);border-radius:8px;font-family:'Heebo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;background:#fff;transition:all .2s;min-width:80px}
+.status-btn.active-s{border-color:var(--green);background:#F0FDF4;color:var(--green)}
+.status-btn.paused-s{border-color:var(--accent);background:#FFFBEB;color:#92400E}
+.status-btn.done-s{border-color:#374151;background:#F9FAFB;color:#374151}
+.arch-row{display:flex;align-items:center;gap:11px;padding:12px 16px;border-bottom:1px solid var(--border)}
+.arch-row:last-child{border-bottom:none}
+.arch-date{font-size:11px;color:var(--muted);margin-top:2px}
+.debt-banner{background:#FEF2F2;border:1.5px solid #FECACA;border-radius:12px;padding:14px 16px;margin-bottom:16px;display:none}
+.debt-banner.show{display:block}
+.debt-banner-title{font-size:12px;font-weight:800;color:#DC2626;margin-bottom:8px}
+.debt-item{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px dashed #FECACA;font-size:13px}
+.debt-item:last-child{border-bottom:none}
+.debt-item-name{font-weight:600;color:var(--text)}
+.debt-item-amount{font-weight:800;color:var(--red)}
+</style>
+</head>
+<body>
+<nav>
+  <div class="brand"><div class="brand-icon">🚗</div><div class="brand-text">ברוך <span>תור</span></div></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="show('dash',this)">סקירה</button>
+    <button class="nav-tab" onclick="show('students',this)">תלמידים</button>
+    <button class="nav-tab" onclick="show('add',this)">+ תלמיד</button>
+    <button class="nav-tab" onclick="show('pay',this)">תשלום</button>
+    <button class="nav-tab" onclick="show('archive',this)">ארכיון</button>
+  </div>
+  <div style="display:flex;gap:6px"><button class="sync-btn" onclick="doSync(this)">🔄 סנכרן</button><button class="sync-btn" id="dark-btn" onclick="toggleDark()" style="padding:7px 8px">🌙</button></div>
+</nav>
+<main>
+
+<div id="page-dash" class="page active">
+  <div class="debt-banner" id="debt-banner">
+    <div class="debt-banner-title">⚠️ חייבים מעל ₪1,000</div>
+    <div id="debt-banner-list"></div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card blue"><div class="stat-icon">👥</div><div class="stat-val" id="s-total">—</div><div class="stat-lbl">תלמידים</div></div>
+    <div class="stat-card amber"><div class="stat-icon">📅</div><div class="stat-val" id="s-lessons">—</div><div class="stat-lbl">שיעורים</div></div>
+    <div class="stat-card yellow"><div class="stat-icon">🚦</div><div class="stat-val" id="s-tests">—</div><div class="stat-lbl">טסטים</div></div>
+    <div class="stat-card red"><div class="stat-icon">⚠️</div><div class="stat-val" id="s-debt">—</div><div class="stat-lbl">חובות</div></div>
+    <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-val" id="s-clear">—</div><div class="stat-lbl">מסולקים</div></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="dot"></span>חובות פעילים</div></div>
+    <div id="debt-list"><div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">טוען...</div></div>
+  </div>
+</div>
+
+<div id="page-students" class="page">
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="dot"></span>כל התלמידים</div></div>
+    <div class="sw">
+      <input class="si" type="text" id="search-input" placeholder="חיפוש..." oninput="filterStudents(this.value)">
+      <button class="sm-btn active" id="sm-name" onclick="setSearchMode('name',this)">שם</button>
+      <button class="sm-btn" id="sm-receipt" onclick="setSearchMode('receipt',this)">חשבונית</button>
+    </div>
+    <div id="all-list"><div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">טוען...</div></div>
+  </div>
+</div>
+
+<div id="page-add" class="page">
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="dot"></span>הוספת תלמיד חדש</div></div>
+    <div class="form-wrap">
+      <div id="alert-add" class="alert"></div>
+      <div class="form-section">פרטים אישיים</div>
+      <div class="fg-row">
+        <div class="fg"><label>שם פרטי <span class="req">*</span></label><input type="text" id="f-fn" placeholder="שם פרטי"></div>
+        <div class="fg"><label>שם משפחה <span class="req">*</span></label><input type="text" id="f-ln" placeholder="שם משפחה"></div>
+      </div>
+      <div class="fg-row">
+        <div class="fg"><label>ת"ז <span class="req">*</span></label><input type="text" id="f-id" maxlength="9" placeholder="9 ספרות"></div>
+        <div class="fg"><label>תאריך לידה <span class="req">*</span></label><input type="date" id="f-dob" onchange="checkAge(this.value)"><div class="age-warning" id="age-warn">⚠️ מתחת לגיל 16.5 — ייקלט כמושהה</div></div>
+      </div>
+      <div class="fg-row">
+        <div class="fg"><label>טלפון <span class="req">*</span></label><input type="tel" id="f-ph" placeholder="05X-XXXXXXX"></div>
+        <div class="fg"><label>מייל</label><input type="email" id="f-em" placeholder="name@email.com"></div>
+      </div>
+      <div class="form-section">סטטוס לימודים</div>
+      <div class="check-grid">
+        <div class="check-item" id="chk-doctor" onclick="toggleCheck('doctor')"><input type="checkbox" id="cb-doctor"><span>👨‍⚕️ בדיקת רופא</span></div>
+        <div class="check-item" id="chk-eye" onclick="toggleCheck('eye')"><input type="checkbox" id="cb-eye"><span>👁️ בדיקת ראייה</span></div>
+        <div class="check-item" id="chk-theory" onclick="toggleCheck('theory')"><input type="checkbox" id="cb-theory"><span>📖 תיאוריה</span></div>
+        <div class="check-item" id="chk-parking" onclick="toggleCheck('parking')"><input type="checkbox" id="cb-parking"><span>🅿️ חניות</span></div>
+      </div>
+      <div class="form-section">פרטים כספיים</div>
+      <div class="fg-row">
+        <div class="fg"><label>מחיר לשיעור <span class="req">*</span></label><select id="f-price"><option value="170">170 ₪</option><option value="180" selected>180 ₪</option><option value="190">190 ₪</option></select></div>
+        <div class="fg"><label>דמי רישום</label><select id="f-fee"><option value="150">150 ₪</option><option value="50">50 ₪</option><option value="ללא">ללא</option></select></div>
+      </div>
+      <div class="form-section">סטטוס והערות</div>
+      <div class="fg"><label>סטטוס</label><select id="f-status"><option value="פעיל">פעיל</option><option value="מושהה">מושהה</option></select></div>
+      <div class="fg"><label>הערות</label><input type="text" id="f-notes" placeholder="הערות חופשיות"></div>
+      <button class="btn btn-p" onclick="submitStudent()">הוסף תלמיד</button>
+    </div>
+  </div>
+</div>
+
+<div id="page-pay" class="page">
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="dot"></span>רישום תשלום</div></div>
+    <div class="form-wrap">
+      <div id="alert-pay" class="alert"></div>
+      <div class="fg"><label>מזהה תלמיד # <span class="req">*</span></label><input type="number" id="p-id" placeholder="מספר מזהה"></div>
+      <div class="fg"><label>סכום ₪ <span class="req">*</span></label><input type="number" id="p-am" placeholder="500"></div>
+      <div class="fg"><label>אמצעי תשלום</label><select id="p-mt"><option>מזומן</option><option>העברה בנקאית</option><option>אשראי</option><option>ביט</option><option>פייבוקס</option></select></div>
+      <div class="fg"><label>הערה</label><input type="text" id="p-nt" placeholder="אסמכתא / פירוט"></div>
+      <button class="btn btn-s" onclick="submitPayment()">💳 רשום תשלום</button>
+    </div>
+  </div>
+</div>
+
+<div id="page-archive" class="page">
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="dot"></span>ארכיון תלמידים שסיימו</div></div>
+    <div id="archive-list"><div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">טוען...</div></div>
+  </div>
+</div>
+
+</main>
+
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="handle"></div>
+    <div class="modal-top"><div class="modal-name" id="m-name">—</div><div class="modal-sub" id="m-sub">—</div></div>
+    <div class="m-stats">
+      <div class="m-stat"><div class="v" id="m-lessons">—</div><div class="l">שיעורים</div></div>
+      <div class="m-stat"><div class="v" style="color:var(--accent)" id="m-tests">—</div><div class="l">🚦 טסטים</div></div>
+      <div class="m-stat"><div class="v" style="color:var(--red)" id="m-debt">—</div><div class="l">חוב</div></div>
+      <div class="m-stat"><div class="v" style="color:var(--green)" id="m-paid">—</div><div class="l">שולם</div></div>
+    </div>
+    <div class="modal-body">
+      <div class="ht">עדכון סטטוס</div>
+      <div class="status-row">
+        <button class="status-btn active-s" onclick="changeStatus('פעיל')">✅ פעיל</button>
+        <button class="status-btn paused-s" onclick="changeStatus('מושהה')">⏸ מושהה</button>
+        <button class="status-btn done-s" onclick="changeStatus('סיים')">🏁 סיים → ארכיון</button>
+      </div>
+      <button class="btn btn-p" style="margin-top:12px" onclick="openEditModal(currentStudentId)">✏️ ערוך פרטי תלמיד</button>
+      <div class="ht" style="margin-top:16px">📅 שיעורים אחרונים</div>
+      <div id="m-lessons-list"></div>
+      <div class="ht">💳 תשלומים</div>
+      <div id="m-pay-list"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="edit-modal" onclick="if(event.target===this)closeEditModal()">
+  <div class="modal">
+    <div class="handle"></div>
+    <div class="modal-top"><div class="modal-name">✏️ עריכת תלמיד</div><div class="modal-sub" id="edit-sub">—</div></div>
+    <div class="form-wrap">
+      <div id="alert-edit" class="alert"></div>
+      <input type="hidden" id="edit-id">
+      <div class="form-section">פרטים אישיים</div>
+      <div class="fg-row"><div class="fg"><label>שם פרטי</label><input type="text" id="edit-fn"></div><div class="fg"><label>שם משפחה</label><input type="text" id="edit-ln"></div></div>
+      <div class="fg-row"><div class="fg"><label>ת"ז</label><input type="text" id="edit-idnum"></div><div class="fg"><label>תאריך לידה</label><input type="date" id="edit-dob"></div></div>
+      <div class="fg-row"><div class="fg"><label>טלפון</label><input type="tel" id="edit-ph"></div><div class="fg"><label>מייל</label><input type="email" id="edit-em"></div></div>
+      <div class="form-section">סטטוס לימודים</div>
+      <div class="check-grid">
+        <div class="check-item" id="echk-theory" onclick="toggleEditCheck('theory')"><input type="checkbox" id="ecb-theory"><span>📖 תיאוריה</span></div>
+        <div class="check-item" id="echk-doctor" onclick="toggleEditCheck('doctor')"><input type="checkbox" id="ecb-doctor"><span>👨‍⚕️ בדיקת רופא</span></div>
+        <div class="check-item" id="echk-eye" onclick="toggleEditCheck('eye')"><input type="checkbox" id="ecb-eye"><span>👁️ בדיקת ראייה</span></div>
+        <div class="check-item" id="echk-parking" onclick="toggleEditCheck('parking')"><input type="checkbox" id="ecb-parking"><span>🅿️ חניות</span></div>
+      </div>
+      <div class="form-section">פרטים כספיים</div>
+      <div class="fg-row">
+        <div class="fg"><label>מחיר לשיעור</label><select id="edit-price"><option value="170">₪170</option><option value="180">₪180</option><option value="190">₪190</option><option value="5200">חבילת ₪5200</option><option value="פרימיום">חבילת פרימיום</option></select></div>
+        <div class="fg"><label>דמי רישום</label><select id="edit-fee"><option value="50">₪50</option><option value="150">₪150</option></select></div>
+      </div>
+      <div class="form-section">סטטוס</div>
+      <div class="fg"><select id="edit-status"><option value="פעיל">פעיל</option><option value="מושהה">מושהה</option><option value="סיים">סיים → ארכיון</option></select></div>
+      <div style="display:flex;gap:10px;margin-top:14px">
+        <button class="btn btn-p" style="flex:2" onclick="submitEdit()">💾 שמור שינויים</button>
+        <button class="btn" style="flex:1;background:#E2E8F0;color:var(--navy)" onclick="closeEditModal()">ביטול</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentStudentId=null,allStudentsCache=[],_searchMode='name';
+
+function show(p,btn){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  btn.classList.add('active');
+  if(p==='dash'||p==='students') loadStudents();
+  if(p==='archive') loadArchive();
+}
+
+function loadStudents(){
+  google.script.run.withSuccessHandler(data=>{
+    allStudentsCache=data;
+    renderDebtList(data.filter(s=>s.balance>0));
+    renderAllList(data);
+    document.getElementById('s-total').textContent=data.length;
+    document.getElementById('s-debt').textContent='₪'+data.reduce((a,s)=>a+(s.balance>0?s.balance:0),0).toLocaleString();
+    document.getElementById('s-lessons').textContent=data.reduce((a,s)=>a+s.lessons,0);
+    document.getElementById('s-clear').textContent=data.filter(s=>s.balance<=0).length;
+    document.getElementById('s-tests').textContent=data.reduce((a,s)=>a+(s.tests||0),0);
+  }).getStudentsData();
+}
+
+function renderDebtList(list){
+  const el=document.getElementById('debt-list');
+  if(!list.length){el.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">אין חובות פעילים 🎉</div>';return;}
+  el.innerHTML=list.sort((a,b)=>b.balance-a.balance).map(s=>stuRow(s)).join('');
+}
+
+function renderAllList(list){
+  const el=document.getElementById('all-list');
+  if(!list.length){el.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">אין תלמידים</div>';return;}
+  el.innerHTML=list.map(s=>stuRow(s)).join('');
+}
+
+function stuRow(s){
+  const initials=s.name.split(' ').map(w=>w[0]).join('').slice(0,2);
+  const balHtml=s.balance>0?'<div class="stu-bal red">-&#8362;'+s.balance.toLocaleString()+'</div>':'<div class="stu-bal green">&#10003; מסולק</div>';
+  const testsHtml=s.tests>0?' &middot; &#128678;'+s.tests+' טסטים':'';
+  return '<div class="stu-row" onclick="openModal('+s.id+')">'
+    +'<div class="avatar">'+initials+'</div>'
+    +'<div class="stu-info"><div class="stu-name">'+s.name+'</div><div class="stu-meta">#'+s.id+' &middot; '+s.lessons+' שיעורים'+testsHtml+'</div></div>'
+    +'<div class="stu-right">'+balHtml+'<div class="stu-paid">שולם &#8362;'+Number(s.paid).toLocaleString()+'</div></div>'
+    +'<div class="arrow">&#8250;</div>'
+    +'</div>';
+}
+
+function setSearchMode(mode,btn){
+  _searchMode=mode;
+  document.getElementById('sm-name').classList.toggle('active',mode==='name');
+  document.getElementById('sm-receipt').classList.toggle('active',mode==='receipt');
+  filterStudents(document.getElementById('search-input').value);
+}
+
+function filterStudents(val){
+  if(!val.trim()){renderAllList(allStudentsCache);return;}
+  if(_searchMode==='name'){
+    renderAllList(allStudentsCache.filter(s=>s.name.includes(val)));
+  }else{
+    google.script.run.withSuccessHandler(function(r){
+      if(r&&r.payment){
+        const el=document.getElementById('all-list');
+        const s=allStudentsCache.find(function(x){return x.id===r.id;});
+        const sName=s?s.name:r.payment.name;
+        const sId=s?s.id:0;
+        const initials=sName.split(' ').map(function(w){return w[0];}).join('').slice(0,2);
+        el.innerHTML='<div style="padding:16px">'
+          +'<div style="background:var(--navy);color:#fff;border-radius:12px;padding:16px;margin-bottom:12px">'
+          +'<div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:4px">חשבונית #'+val+'</div>'
+          +'<div style="font-size:18px;font-weight:800">&#8362;'+Number(r.payment.amount).toLocaleString()+'</div>'
+          +'</div>'
+          +'<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden">'
+          +'<div class="hr" style="padding:10px 14px"><span style="color:var(--muted);font-size:13px">תלמיד</span><span style="font-weight:700">'+sName+'</span></div>'
+          +'<div class="hr" style="padding:10px 14px"><span style="color:var(--muted);font-size:13px">תאריך</span><span style="font-weight:700">'+r.payment.date+'</span></div>'
+          +'<div class="hr" style="padding:10px 14px"><span style="color:var(--muted);font-size:13px">אמצעי</span><span style="font-weight:700">'+(r.payment.method||'—')+'</span></div>'
+          +'<div class="hr" style="padding:10px 14px;border-bottom:none"><span style="color:var(--muted);font-size:13px">הערה</span><span style="font-weight:700">'+(r.payment.note||'—')+'</span></div>'
+          +'</div>'
+          +(s?'<div class="stu-row" onclick="openModal('+sId+')" style="margin-top:12px;border:1px solid var(--border);border-radius:12px">'
+            +'<div class="avatar">'+initials+'</div>'
+            +'<div class="stu-info"><div class="stu-name">'+sName+'</div><div class="stu-meta">לחץ לפרטים מלאים</div></div>'
+            +'<div class="arrow">&#8250;</div></div>':'')
+          +'</div>';
+      }else{
+        document.getElementById('all-list').innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">חשבונית לא נמצאה</div>';
+      }
+    }).findStudentByReceipt(val.trim());
+  }
+}
+
+function openModal(id){
+  currentStudentId=id;
+  const s=allStudentsCache.find(function(x){return x.id==id;});
+  if(!s)return;
+  document.getElementById('m-name').textContent=s.name;
+  document.getElementById('m-sub').textContent='מזהה #'+s.id;
+  document.getElementById('m-lessons').textContent=s.lessons;
+  document.getElementById('m-tests').textContent=s.tests||0;
+  document.getElementById('m-debt').textContent='&#8362;'+Number(s.debt).toLocaleString();
+  document.getElementById('m-paid').textContent='&#8362;'+Number(s.paid).toLocaleString();
+  document.getElementById('m-lessons-list').innerHTML='<div style="color:var(--muted);font-size:13px;padding:8px 0">טוען...</div>';
+  document.getElementById('m-pay-list').innerHTML='<div style="color:var(--muted);font-size:13px;padding:8px 0">טוען...</div>';
+  document.getElementById('modal').classList.add('open');
+  google.script.run
+    .withFailureHandler(function(err){document.getElementById('m-lessons-list').innerHTML='<div style="color:red;font-size:13px;padding:8px 0">שגיאה: '+err.message+'</div>';})
+    .withSuccessHandler(function(data){
+      const statusMap={'בוצע':'bg','בוטל':'br','לא הגיע':'by','מתוכנן':'bpu'};
+      const ll=document.getElementById('m-lessons-list');
+      if(!data.lessons.length){
+        ll.innerHTML='<div style="color:var(--muted);font-size:13px;padding:8px 0">אין שיעורים</div>';
+      }else{
+        ll.innerHTML=data.lessons.slice(-8).reverse().map(function(l){
+          const cls=statusMap[l.status]||'bgr';
+          const priceHtml=l.price?'&#8362;'+l.price:'—';
+          return '<div class="hr"><div><div class="hd">'+l.date+' &middot; '+l.time+' &middot; '+l.type+'</div><div class="hs">מקור קלנדר</div></div>'
+            +'<div class="hr-r"><span class="badge '+cls+'">'+l.status+'</span><span class="hp '+(l.price?'':'dim')+'">'+priceHtml+'</span></div></div>';
+        }).join('');
+      }
+      const pl=document.getElementById('m-pay-list');
+      if(!data.payments.length){
+        pl.innerHTML='<div style="color:var(--muted);font-size:13px;padding:8px 0">אין תשלומים</div>';
+      }else{
+        pl.innerHTML=data.payments.slice().reverse().map(function(p){
+          return '<div class="hr"><div><div class="hd">'+p.date+'</div><div class="hs">'+(p.method||'')+'</div></div>'
+            +'<div class="hr-r"><span class="hp" style="color:var(--green)">+&#8362;'+Number(p.amount).toLocaleString()+'</span></div></div>';
+        }).join('');
+      }
+    }).getStudentHistory(id);
+}
+
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+
+function changeStatus(status){
+  if(!currentStudentId)return;
+  if(status==='סיים'&&!confirm('להעביר תלמיד זה לארכיון?'))return;
+  google.script.run.withSuccessHandler(function(res){
+    if(res.success){closeModal();loadStudents();}
+  }).updateStudentStatus(currentStudentId,status);
+}
+
+function loadArchive(){
+  google.script.run.withSuccessHandler(function(data){
+    const el=document.getElementById('archive-list');
+    if(!data.length){el.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">הארכיון ריק</div>';return;}
+    el.innerHTML=data.map(function(s){
+      const initials=s.fullName.split(' ').map(function(w){return w[0];}).join('').slice(0,2);
+      return '<div class="arch-row"><div class="avatar" style="background:#374151">'+initials+'</div>'
+        +'<div class="stu-info"><div class="stu-name">'+s.fullName+'</div><div class="arch-date">סיים: '+(s.finishedAt||'—')+'</div></div>'
+        +'<span class="badge bgr">סיים</span></div>';
+    }).join('');
+  }).getArchiveStudents();
+}
+
+function checkAge(val){
+  if(!val)return;
+  const ageYears=(new Date()-new Date(val))/(1000*60*60*24*365.25);
+  const warn=document.getElementById('age-warn');
+  if(ageYears<16.5){warn.classList.add('show');document.getElementById('f-status').value='מושהה';}
+  else{warn.classList.remove('show');document.getElementById('f-status').value='פעיל';}
+}
+
+function toggleCheck(type){
+  const cb=document.getElementById('cb-'+type),item=document.getElementById('chk-'+type);
+  cb.checked=!cb.checked;item.classList.toggle('checked',cb.checked);
+  if(type==='theory'&&cb.checked){
+    document.getElementById('cb-doctor').checked=true;document.getElementById('chk-doctor').classList.add('checked');
+    document.getElementById('cb-eye').checked=true;document.getElementById('chk-eye').classList.add('checked');
+  }
+}
+
+function submitStudent(){
+  const fn=document.getElementById('f-fn').value.trim(),ln=document.getElementById('f-ln').value.trim();
+  const id=document.getElementById('f-id').value.trim(),dob=document.getElementById('f-dob').value;
+  const ph=document.getElementById('f-ph').value.trim();
+  if(!fn||!ln||!id||!dob||!ph){showAlert('alert-add','❌ יש למלא שם, ת"ז, תאריך לידה וטלפון','ae');return;}
+  const ageYears=(new Date()-new Date(dob))/(1000*60*60*24*365.25);
+  google.script.run
+    .withSuccessHandler(function(res){
+      if(res&&res.success){
+        showAlert('alert-add',res.underAge?'✅ תלמיד נוסף כמושהה — מזהה #'+res.internalId:'✅ תלמיד נוסף! מזהה #'+res.internalId,'as');
+        ['f-fn','f-ln','f-id','f-ph','f-em','f-notes'].forEach(function(i){document.getElementById(i).value='';});
+        document.getElementById('f-dob').value='';
+        ['doctor','eye','theory','parking'].forEach(function(t){document.getElementById('cb-'+t).checked=false;document.getElementById('chk-'+t).classList.remove('checked');});
+        document.getElementById('age-warn').classList.remove('show');
+      }else showAlert('alert-add','❌ '+(res&&res.error||'שגיאה'),'ae');
+    })
+    .withFailureHandler(function(e){showAlert('alert-add','❌ שגיאה: '+e.message,'ae');})
+    .addStudentFromUI({firstName:fn,lastName:ln,idNum:id,birthDate:dob,phone:ph,email:document.getElementById('f-em').value,price:Number(document.getElementById('f-price').value),registrationFee:document.getElementById('f-fee').value,status:document.getElementById('f-status').value,theory:document.getElementById('cb-theory').checked,doctorCheck:document.getElementById('cb-doctor').checked,eyeCheck:document.getElementById('cb-eye').checked,parking:document.getElementById('cb-parking').checked,notes:document.getElementById('f-notes').value,underAge:ageYears<16.5});
+}
+
+function submitPayment(){
+  const id=document.getElementById('p-id').value,am=document.getElementById('p-am').value;
+  if(!id||!am){showAlert('alert-pay','❌ יש להזין מזהה וסכום','ae');return;}
+  google.script.run.withSuccessHandler(function(ok){
+    if(ok){showAlert('alert-pay','✅ תשלום &#8362;'+Number(am).toLocaleString()+' נרשם','as');['p-id','p-am','p-nt'].forEach(function(i){document.getElementById(i).value='';});}
+    else showAlert('alert-pay','❌ תלמיד לא נמצא','ae');
+  }).addPaymentFromUI({internalId:Number(id),amount:Number(am),method:document.getElementById('p-mt').value,note:document.getElementById('p-nt').value});
+}
+
+function doSync(btn){
+  btn.textContent='⏳...';btn.disabled=true;
+  google.script.run.withSuccessHandler(function(){btn.textContent='✅';setTimeout(function(){btn.textContent='🔄 סנכרן';btn.disabled=false;loadStudents();},2000);}).runSyncNow();
+}
+
+function showAlert(id,msg,cls){
+  const el=document.getElementById(id);
+  el.textContent=msg;el.className='alert '+cls+' show';
+  setTimeout(function(){el.classList.remove('show');},5000);
+}
+
+function openEditModal(id){
+  document.getElementById('edit-id').value=id;
+  document.getElementById('edit-sub').textContent='מזהה #'+id;
+  google.script.run.withSuccessHandler(function(data){
+    if(!data)return;
+    document.getElementById('edit-fn').value=data.firstName||'';
+    document.getElementById('edit-ln').value=data.lastName||'';
+    document.getElementById('edit-idnum').value=data.idNum||'';
+    document.getElementById('edit-dob').value=data.birthDate||'';
+    document.getElementById('edit-ph').value=data.phone||'';
+    document.getElementById('edit-em').value=data.email||'';
+    document.getElementById('edit-price').value=data.price||'180';
+    document.getElementById('edit-fee').value=data.regFee||'50';
+    document.getElementById('edit-status').value=data.status||'פעיל';
+    ['theory','doctor','eye','parking'].forEach(function(t){
+      const cb=document.getElementById('ecb-'+t),item=document.getElementById('echk-'+t);
+      cb.checked=data[t]||false;item.classList.toggle('checked',cb.checked);
+    });
+    document.getElementById('edit-modal').classList.add('open');
+  }).getStudentDetails(id);
+}
+
+function closeEditModal(){document.getElementById('edit-modal').classList.remove('open');}
+
+function toggleEditCheck(type){
+  const cb=document.getElementById('ecb-'+type),item=document.getElementById('echk-'+type);
+  cb.checked=!cb.checked;item.classList.toggle('checked',cb.checked);
+  if(type==='theory'&&cb.checked){
+    document.getElementById('ecb-doctor').checked=true;document.getElementById('echk-doctor').classList.add('checked');
+    document.getElementById('ecb-eye').checked=true;document.getElementById('echk-eye').classList.add('checked');
+  }
+}
+
+function submitEdit(){
+  const id=document.getElementById('edit-id').value;
+  google.script.run.withSuccessHandler(function(res){
+    if(res&&res.success){closeEditModal();closeModal();loadStudents();showAlert('alert-add','✅ עודכן בהצלחה','as');}
+    else showAlert('alert-edit','❌ שגיאה בעדכון','ae');
+  }).updateStudentDetails({internalId:Number(id),firstName:document.getElementById('edit-fn').value.trim(),lastName:document.getElementById('edit-ln').value.trim(),idNum:document.getElementById('edit-idnum').value.trim(),birthDate:document.getElementById('edit-dob').value,phone:document.getElementById('edit-ph').value.trim(),email:document.getElementById('edit-em').value.trim(),price:document.getElementById('edit-price').value,regFee:document.getElementById('edit-fee').value,status:document.getElementById('edit-status').value,theory:document.getElementById('ecb-theory').checked,doctor:document.getElementById('ecb-doctor').checked,eye:document.getElementById('ecb-eye').checked,parking:document.getElementById('ecb-parking').checked});
+}
+
+function showDebtBanner(alerts){
+  const banner=document.getElementById('debt-banner');
+  const list=document.getElementById('debt-banner-list');
+  if(!alerts||!alerts.length){banner.classList.remove('show');return;}
+  banner.classList.add('show');
+  list.innerHTML=alerts.map(function(a){
+    return '<div class="debt-item"><span class="debt-item-name">'+a.name+'</span><span class="debt-item-amount">&#8362;'+a.balance.toLocaleString()+'</span></div>';
+  }).join('');
+}
+
+function toggleDark(){
+  var isDark=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('dark-btn').textContent=isDark?'🌙':'☀️';
+  localStorage.setItem('btt-theme',isDark?'light':'dark');
+}
+(function(){
+  var t=localStorage.getItem('btt-theme')||'light';
+  document.documentElement.setAttribute('data-theme',t);
+  if(t==='dark')setTimeout(function(){var b=document.getElementById('dark-btn');if(b)b.textContent='☀️';},0);
+})();
+window.onload=function(){
+  loadStudents();
+  google.script.run.withSuccessHandler(showDebtBanner).getDebtAlerts();
+};
+</script>
+</body>
+</html>
