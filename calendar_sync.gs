@@ -222,3 +222,39 @@ function syncCalendarInitial() {
 function _fmtDate(d) {
   return Utilities.formatDate(d, 'Asia/Jerusalem', 'dd/MM/yyyy');
 }
+
+// ─────────────────────────────────────────
+// בדיקה מקדימה — אילו שמות מהקלנדר לא מזוהים
+// הרץ לפני syncCalendarInitial כדי לוודא תאימות שמות
+// ─────────────────────────────────────────
+function testCalendarNames() {
+  const cal  = CalendarApp.getDefaultCalendar();
+  const now  = new Date();
+  const from = new Date('2025-01-01');
+  const events = cal.getEvents(from, now);
+
+  const unmatched  = new Set();
+  const matched    = new Set();
+  const duplicates = new Set();
+
+  events.forEach(event => {
+    const title    = event.getTitle().trim();
+    const duration = Math.round((event.getEndTime() - event.getStartTime()) / 60000);
+    const lesson   = _classifyDuration(duration);
+    if (!lesson) return; // לא שיעור נהיגה — מדלג
+
+    const lookup = findStudentByName(title);
+    if (lookup.match === 'exact')    matched.add(title);
+    if (lookup.match === 'none')     unmatched.add(title);
+    if (lookup.match === 'multiple') duplicates.add(title);
+  });
+
+  Logger.log('✅ זוהו (' + matched.size + '):');
+  matched.forEach(n => Logger.log('   ' + n));
+
+  Logger.log('❌ לא זוהו (' + unmatched.size + '):');
+  unmatched.forEach(n => Logger.log('   ' + n));
+
+  Logger.log('⚠️ שם כפול (' + duplicates.size + '):');
+  duplicates.forEach(n => Logger.log('   ' + n));
+}
