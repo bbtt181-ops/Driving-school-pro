@@ -6,21 +6,22 @@
 const SOURCE_SS_ID  = '13AQgLak3XyrwK_GksM49QiBYwuXVb0qhWurWjDdODIs';
 const SOURCE_START  = 4; // נתונים מתחילים משורה 4
 
-// מיפוי עמודות (אינדקס מ-0)
+// מיפוי עמודות (אינדקס מ-0) — מותאם למבנה הגיליון האמיתי
 const COL = {
-  firstName : 1,  // B
-  lastName  : 2,  // C
-  idNum     : 3,  // D
-  birthDate : 4,  // E
-  phoneNum  : 7,  // H
-  prefix    : 8,  // I
-  email     : 10, // K
-  status    : 11, // L
-  regFee    : 13, // N
-  theory    : 14, // O
-  doctor    : 15, // P
-  eye       : 16, // Q
-  parking   : 17  // R
+  firstName : 1,  // B - שם פרטי
+  lastName  : 2,  // C - שם משפחה
+  idNum     : 3,  // D - ת"ז
+  birthDate : 4,  // E - תאריך לידה
+  // F=5 שנים, G=6 חודשים, H=7 גיל תקין — מחושב
+  phone     : 8,  // I - טלפון
+  email     : 9,  // J - מייל
+  price     : 10, // K - מחיר לשיעור
+  regFee    : 11, // L - דמי רישום
+  status    : 12, // M - סטטוס
+  theory    : 13, // N - תיאוריה
+  doctor    : 14, // O - רופא
+  eye       : 15, // P - ראייה
+  parking   : 16, // Q - חניות
 };
 
 // ─────────────────────────────────────────
@@ -42,10 +43,7 @@ function _getSourceStudents() {
 
     if (!firstName || !lastName || !idNum) continue;
 
-    // טלפון — קידומת + מספר (ספרות בלבד)
-    const prefix   = String(row[COL.prefix]  || '').replace(/\D/g,'');
-    const phoneNum = String(row[COL.phoneNum] || '').replace(/\D/g,'');
-    const phone    = prefix && phoneNum ? prefix + '-' + phoneNum : phoneNum;
+    const phone = String(row[COL.phone] || '').replace(/\D/g, '');
 
     // תאריך לידה + גיל
     let birthDate  = '';
@@ -70,19 +68,24 @@ function _getSourceStudents() {
     const feeRaw = String(row[COL.regFee] || '').replace('₪','').trim();
     const regFee = (feeRaw === '150' || feeRaw === '50') ? feeRaw : 'ללא';
 
-    // צ'קבוקסים
     const isChecked = v => v === true || String(v).toLowerCase() === 'true' || String(v).includes('✓');
+    const pricePerLesson = Number(row[COL.price]) || 0;
 
     result.push({
-      internalId : i - SOURCE_START + 2, // מזהה פנימי
-      idNum, firstName, lastName, phone, email: String(row[COL.email] || '').trim(),
-      birthDate, ageYears: Math.floor(ageYears * 10) / 10,
-      underAge: ageYears < 16.5,
+      internalId    : i - SOURCE_START + 2,
+      idNum, firstName, lastName,
+      fullName      : firstName + ' ' + lastName,
+      phone,
+      email         : String(row[COL.email] || '').trim(),
+      birthDate,
+      ageYears      : Math.floor(ageYears * 10) / 10,
+      underAge      : ageYears < 16.5,
       status, regFee,
-      theory  : isChecked(row[COL.theory]),
-      doctor  : isChecked(row[COL.doctor]),
-      eye     : isChecked(row[COL.eye]),
-      parking : isChecked(row[COL.parking]),
+      price         : pricePerLesson,
+      theory        : isChecked(row[COL.theory]),
+      doctor        : isChecked(row[COL.doctor]),
+      eye           : isChecked(row[COL.eye]),
+      parking       : isChecked(row[COL.parking]),
     });
   }
   return result;
@@ -227,7 +230,7 @@ function ensureBalanceRows() {
     balSh.getRange(balRow, 1).setValue(s.internalId);
     balSh.getRange(balRow, 2).setValue(s.firstName + ' ' + s.lastName);
     balSh.getRange(balRow, 3).setFormula('=COUNTIFS(שיעורים!B:B,A' + balRow + ',שיעורים!H:H,"בוצע")');
-    balSh.getRange(balRow, 4).setFormula('=SUMIF(שיעורים!B:B,A' + balRow + ',שיעורים!G:G)');
+    balSh.getRange(balRow, 4).setFormula('=SUMIFS(שיעורים!G:G,שיעורים!B:B,A' + balRow + ',שיעורים!H:H,"בוצע")');
     balSh.getRange(balRow, 5).setFormula('=SUMIF(תשלומים!A:A,A' + balRow + ',תשלומים!D:D)');
     balSh.getRange(balRow, 6).setFormula('=D' + balRow + '-E' + balRow);
     balSh.getRange(balRow, 7).setFormula('=IF(F' + balRow + '=0,"מסולק",IF(F' + balRow + '>1500,"חוב גבוה ⚠️","חוב פעיל"))');

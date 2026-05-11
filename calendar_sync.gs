@@ -47,29 +47,23 @@ function _processEvent(event) {
   // בדיקה שהאירוע לא נרשם כבר
   if (_lessonExists(eventId)) return 'skipped';
 
-  // זיהוי סוג שיעור לפי משך
-  const lessonType = _classifyDuration(duration);
-  if (!lessonType) return 'skipped'; // לא שיעור נהיגה
+  const lesson = _classifyDuration(duration);
+  if (!lesson) return 'skipped';
 
-  // חיפוש תלמיד לפי שם
   const lookup = findStudentByName(title);
 
   if (lookup.match === 'exact') {
     const status = _detectStatus(title);
-    _writeLesson(event, lookup.student, lessonType, 'קלנדר-אוטו', status);
+    _writeLesson(event, lookup.student, lesson, 'קלנדר-אוטו', status);
     return 'synced';
   }
 
   if (lookup.match === 'multiple') {
-    // כמה תלמידים עם אותו שם — רושם לבירור
-    _writePendingLesson(event, title, lessonType, 'דורש בירור');
+    _writePendingLesson(event, title, lesson.type, 'דורש בירור');
     return 'review';
   }
 
-  if (lookup.match === 'none') {
-    // שם לא מוכר — יכול להיות אירוע אישי, מדלגים
-    return 'skipped';
-  }
+  return 'skipped';
 }
 
 // ─────────────────────────────────────────
@@ -84,38 +78,39 @@ function _detectStatus(title) {
 }
 
 // ─────────────────────────────────────────
-// סיווג משך → סוג שיעור
+// סיווג משך → סוג שיעור + יחידות
 // ─────────────────────────────────────────
 function _classifyDuration(minutes) {
-  if (minutes >= 35 && minutes <= 55)   return 'בודד 40 דק';
-  if (minutes >= 80 && minutes <= 100)  return 'שעה וחצי 90 דק';
-  if (minutes >= 110 && minutes <= 130) return 'כפול 120 דק';
-  return null; // לא שיעור נהיגה
+  if (minutes >= 35 && minutes <= 50)   return { type: 'שיעור בודד',   units: 1   };
+  if (minutes >= 55 && minutes <= 70)   return { type: 'שיעור וחצי',   units: 1.5 };
+  if (minutes >= 75 && minutes <= 95)   return { type: 'שיעור כפול',   units: 2   };
+  if (minutes >= 110 && minutes <= 130) return { type: 'שיעור משולש',  units: 3   };
+  return null;
 }
 
 // ─────────────────────────────────────────
 // רישום שיעור מזוהה לגיליון שיעורים
 // ─────────────────────────────────────────
-function _writeLesson(event, student, lessonType, source, status) {
+function _writeLesson(event, student, lesson, source, status) {
   const ss = SpreadsheetApp.openById(SS_ID);
   const sh = ss.getSheetByName('שיעורים');
 
-  const date     = Utilities.formatDate(event.getStartTime(), 'Asia/Jerusalem', 'dd/MM/yyyy');
-  const time     = Utilities.formatDate(event.getStartTime(), 'Asia/Jerusalem', 'HH:mm');
-  const price    = student.price;
+  const date  = Utilities.formatDate(event.getStartTime(), 'Asia/Jerusalem', 'dd/MM/yyyy');
+  const time  = Utilities.formatDate(event.getStartTime(), 'Asia/Jerusalem', 'HH:mm');
+  const price = Math.round(student.price * lesson.units);
 
   sh.appendRow([
     event.getId(),
     student.internalId,
     student.fullName,
     date, time,
-    lessonType,
+    lesson.type,
     price,
     status,
     source
   ]);
 
-  Logger.log(`✅ נרשם שיעור: ${student.fullName} | ${date} ${time} | ${lessonType} | ${price}₪`);
+  Logger.log(`✅ נרשם שיעור: ${student.fullName} | ${date} ${time} | ${lesson.type} | ${price}₪`);
 }
 
 // ─────────────────────────────────────────

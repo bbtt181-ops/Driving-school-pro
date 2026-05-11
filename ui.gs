@@ -78,10 +78,9 @@ function buildBalanceDebt() {
   const lastRow = balSh.getLastRow();
   if (lastRow < 2) { Logger.log('אין שורות ביתרות'); return; }
 
-  // הכנס נוסחת SUMIF לכל שורה בעמודה D
   for (let i = 2; i <= lastRow; i++) {
     balSh.getRange(i, 4).setFormula(
-      "=SUMIF('שיעורים'!B:B,A" + i + ",'שיעורים'!G:G)"
+      "=SUMIFS('שיעורים'!G:G,'שיעורים'!B:B,A" + i + ",'שיעורים'!H:H,\"בוצע\")"
     );
   }
 
