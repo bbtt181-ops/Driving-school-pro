@@ -228,10 +228,18 @@ function _fmtDate(d) {
 // הרץ לפני syncCalendarInitial כדי לוודא תאימות שמות
 // ─────────────────────────────────────────
 function testCalendarNames() {
-  const cal  = CalendarApp.getDefaultCalendar();
-  const now  = new Date();
-  const from = new Date('2025-01-01');
+  const cal    = CalendarApp.getDefaultCalendar();
+  const now    = new Date();
+  const from   = new Date('2025-01-01');
   const events = cal.getEvents(from, now);
+
+  // טוען תלמידים פעם אחת בלבד
+  const students = _getSourceStudents();
+  const nameMap  = {};
+  students.forEach(s => {
+    const full = (s.firstName + ' ' + s.lastName).trim().toLowerCase();
+    nameMap[full] = (nameMap[full] || 0) + 1;
+  });
 
   const unmatched  = new Set();
   const matched    = new Set();
@@ -241,20 +249,19 @@ function testCalendarNames() {
     const title    = event.getTitle().trim();
     const duration = Math.round((event.getEndTime() - event.getStartTime()) / 60000);
     const lesson   = _classifyDuration(duration);
-    if (!lesson) return; // לא שיעור נהיגה — מדלג
+    if (!lesson) return;
 
-    const lookup = findStudentByName(title);
-    if (lookup.match === 'exact')    matched.add(title);
-    if (lookup.match === 'none')     unmatched.add(title);
-    if (lookup.match === 'multiple') duplicates.add(title);
+    const key   = title.trim().toLowerCase();
+    const count = nameMap[key] || 0;
+    if (count === 1) matched.add(title);
+    if (count === 0) unmatched.add(title);
+    if (count > 1)   duplicates.add(title);
   });
 
   Logger.log('✅ זוהו (' + matched.size + '):');
   matched.forEach(n => Logger.log('   ' + n));
-
   Logger.log('❌ לא זוהו (' + unmatched.size + '):');
   unmatched.forEach(n => Logger.log('   ' + n));
-
   Logger.log('⚠️ שם כפול (' + duplicates.size + '):');
   duplicates.forEach(n => Logger.log('   ' + n));
 }
