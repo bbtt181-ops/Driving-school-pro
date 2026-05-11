@@ -183,3 +183,42 @@ function syncCalendarManual() {
   events.forEach(event => _processEvent(event));
   Logger.log('✅ סנכרון ידני הושלם');
 }
+
+// ─────────────────────────────────────────
+// סנכרון היסטורי — מתאריך התחלה עד היום
+// רץ חודש-חודש כדי למנוע timeout
+// הרץ פעם אחת בלבד לאחר ניקוי גיליון שיעורים
+// ─────────────────────────────────────────
+function syncCalendarInitial() {
+  const cal       = CalendarApp.getDefaultCalendar();
+  const now       = new Date();
+  const startDate = new Date('2023-01-01'); // שנה ראשונה לסריקה — שנה לפי הצורך
+
+  let synced = 0, skipped = 0, needsReview = 0;
+  let cursor = new Date(startDate);
+
+  while (cursor < now) {
+    const chunkEnd = new Date(cursor);
+    chunkEnd.setMonth(chunkEnd.getMonth() + 1);
+    if (chunkEnd > now) chunkEnd.setTime(now.getTime());
+
+    const events = cal.getEvents(cursor, chunkEnd);
+    Logger.log(`📅 ${_fmtDate(cursor)} → ${_fmtDate(chunkEnd)} | ${events.length} אירועים`);
+
+    events.forEach(event => {
+      const result = _processEvent(event);
+      if (result === 'synced')  synced++;
+      if (result === 'skipped') skipped++;
+      if (result === 'review')  needsReview++;
+    });
+
+    cursor = new Date(chunkEnd);
+  }
+
+  Logger.log(`✅ סנכרון היסטורי הושלם | נרשמו: ${synced} | דולגו: ${skipped} | דורשים בירור: ${needsReview}`);
+  if (needsReview > 0) _sendReviewAlert(needsReview);
+}
+
+function _fmtDate(d) {
+  return Utilities.formatDate(d, 'Asia/Jerusalem', 'dd/MM/yyyy');
+}
