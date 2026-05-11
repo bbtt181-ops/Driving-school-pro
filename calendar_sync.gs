@@ -192,7 +192,7 @@ function syncCalendarManual() {
 function syncCalendarInitial() {
   const cal       = CalendarApp.getDefaultCalendar();
   const now       = new Date();
-  const startDate = new Date('2023-01-01'); // שנה ראשונה לסריקה — שנה לפי הצורך
+  const startDate = new Date('2025-01-01');
 
   let synced = 0, skipped = 0, needsReview = 0;
   let cursor = new Date(startDate);
